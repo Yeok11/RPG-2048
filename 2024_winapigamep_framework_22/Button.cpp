@@ -2,7 +2,7 @@
 #include "Button.h"
 #include "InputManager.h"
 #include "GDISelector.h"
-int cnt;
+
 Button::Button()
 {
 }
@@ -30,6 +30,10 @@ void Button::Render(HDC _hdc)
 
 void Button::OnClick()
 {
-	
-	cout << "Click" << cnt++ << endl;
+	act.Invoke();
+}
+
+void Button::AddListener(std::function<void()> listen)
+{
+	act += listen;
 }

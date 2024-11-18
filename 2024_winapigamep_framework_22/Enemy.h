@@ -1,5 +1,6 @@
 #pragma once
 #include "Object.h"
+#include "Action.h"
 class Enemy :
     public Object
 {
@@ -8,6 +9,7 @@ public:
 	~Enemy();
 public:
 	void Update() override;
+	void LateUpdate() override;
 	void Render(HDC _hdc) override;
 public:
 	virtual void EnterCollision(Collider* _other);
