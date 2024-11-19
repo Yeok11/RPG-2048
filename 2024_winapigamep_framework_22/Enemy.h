@@ -6,6 +6,7 @@ class Enemy :
 {
 public:
 	Enemy();
+	Enemy(Vec2 _size, Vec2 _pos);
 	~Enemy();
 public:
 	void Update() override;

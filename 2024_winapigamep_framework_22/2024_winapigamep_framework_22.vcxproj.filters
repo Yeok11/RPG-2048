@@ -130,7 +130,12 @@
     <ClInclude Include="Button.h">
       <Filter>Engine\06. Component</Filter>
     </ClInclude>
-    <ClInclude Include="Action.h" />
+    <ClInclude Include="Action.h">
+      <Filter>Engine\01. Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Image.h">
+      <Filter>Engine\06. Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2024_winapigamep_framework_22.rc">
@@ -216,6 +221,9 @@
       <Filter>Engine\06. Component</Filter>
     </ClCompile>
     <ClCompile Include="Button.cpp">
+      <Filter>Engine\06. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Image.cpp">
       <Filter>Engine\06. Component</Filter>
     </ClCompile>
   </ItemGroup>

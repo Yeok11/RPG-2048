@@ -3,4 +3,5 @@
 #include "Enemy.h"
 void GameScene::Init()
 {
+
 }
