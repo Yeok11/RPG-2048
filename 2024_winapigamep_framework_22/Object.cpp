@@ -1,8 +1,9 @@
 #include "pch.h"
-#include "Object.h"
 #include "TimeManager.h"
 #include "InputManager.h"
 #include "Component.h"
+#include "Object.h"
+
 Object::Object()
 	: m_vPos{}
 	, m_vSize{}
