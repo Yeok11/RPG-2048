@@ -24,3 +24,6 @@ public:							\
 #define RECT_RENDER(hdc, posx, posy, sizex, sizey) Rectangle(hdc, (int)(posx-sizex/2), (int)(posy-sizey/2), (int)(posx+sizex/2), (int)(posy+sizey/2))
 #define ELLIPSE_RENDER(hdc, posx, posy, sizex, sizey) Ellipse(hdc, (int)(posx-sizex/2), (int)(posy-sizey/2), (int)(posx+sizex/2), (int)(posy+sizey/2))
 #define RECT_MAKE(posx, posy, sizex, sizey) {posx-sizex/2, posy-sizey/2, posx+sizex/2, posy+sizey/2}
+
+//내가 만든 매크로
+#define MOUSE_ON_OBJECT(_size, _pos) ((_pos.x - _size.x < GET_MOUSEPOS.x) && (_pos.x + _size.x > GET_MOUSEPOS.x) && (_pos.y - _size.y < GET_MOUSEPOS.y) && (_pos.y + _size.y > GET_MOUSEPOS.y))

@@ -13,7 +13,6 @@ Collider::Collider()
 Collider::~Collider()
 {
 }
-
 void Collider::LateUpdate()
 {
 	const Object* pOwner = GetOwner();
