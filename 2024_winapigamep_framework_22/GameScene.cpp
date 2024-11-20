@@ -1,6 +1,12 @@
 #include "pch.h"
+#include "Core.h"
+#include "Tile.h"
 #include "GameScene.h"
-#include "Enemy.h"
+
 void GameScene::Init()
 {
+	int i = 0;
+	
+	
+
 }

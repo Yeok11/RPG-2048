@@ -8,6 +8,13 @@ BaseWindow::BaseWindow()
 {
 }
 
+vector<int> p;
+vector<OBJ_TYPE> t;
+vector<int[5]> c;
+vector<OBJ_TYPE[5]> a;
+
+
+
 BaseWindow::~BaseWindow()
 {
 }

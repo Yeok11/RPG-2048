@@ -37,51 +37,5 @@ private:
 	HDC  m_hDC; // Main DC
 	HDC  m_hBackDC; // πÈπˆ∆€ DC
 	HBITMAP m_hBackBit; // πÈπˆ∆€¿« bitmap
-	//Object m_obj;
-	//private:
-//	Core() {}
-//public:
-//	static Core* GetInst()
-//	{
-//		static Core m_pInst;
-//		return &m_pInst;
-//	}
-//	/*static Core& GetInst2()
-//	{
-//		static Core m_pInst;
-//		return m_pInst;
-//	}*/
-//
-//private:
-
 
 };
-//void test()
-//{
-//	static int a = 0;
-//
-//}
-// ≈€«√∏¥ ΩÃ±€≈Ê
-//class Core 
-//{
-// //private:
-//	static Core* m_pInst;
-//public:
-//	static Core* GetInst()
-//	{
-//		if (nullptr == m_pInst)
-//			m_pInst = new Core;
-//		return m_pInst;
-//	}
-//	static void DestoryInst()
-//	{
-//		if (nullptr != m_pInst)
-//		{
-//
-//		}
-//	}
-//private:
-//	Core() {}
-
-//};
-

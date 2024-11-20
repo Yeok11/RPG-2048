@@ -10,6 +10,25 @@ enum class LAYER
 	END = 30
 };
 
+enum class OBJ_TYPE
+{
+	NONE = 0,
+	NORMAL,
+	STONE,
+	WALL
+};
+
+enum class CALCULATE
+{
+	MAIN = 0,
+	PLUS,
+	MINUS,
+	MULTI,
+	DIVIDE
+};
+
+
+
 enum class PEN_TYPE
 {
 	HOLLOW, RED, GREEN,
