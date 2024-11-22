@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "GDISelector.h"
 #include "Core.h"
+
 GDISelector::GDISelector(HDC _hdc, PEN_TYPE _ePen)
 	: m_hDC(_hdc)
 	, m_hDefaultBrush(nullptr)
@@ -40,7 +41,7 @@ GDISelector::~GDISelector()
 	SelectObject(m_hDC, m_hDefaultPen);
 	SelectObject(m_hDC, m_hDefaultBrush);
 	SelectObject(m_hDC, m_hDefaultFont);
-	if (nullptr != m_hFont)
-		DeleteObject(m_hFont);
+	//if (nullptr != m_hFont)
+		//DeleteObject(m_hFont);
 }
 

@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+
 class Texture;
 class Image : public Component
 {
@@ -15,4 +16,3 @@ private:
 	int m_multipleWidth;
 	int m_multipleHeight;
 };
-

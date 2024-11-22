@@ -31,6 +31,7 @@ void Image::Render(HDC _hdc)
 	Vec2 vSize = GetSize();
 	int width = m_pTex->GetWidth();
 	int height = m_pTex->GetHeight();
+
 	::TransparentBlt(_hdc
 		, (int)(vPos.x - width / 2)
 		, (int)(vPos.y - height / 2)
