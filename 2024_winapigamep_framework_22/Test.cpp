@@ -11,7 +11,7 @@ Test::Test()
 	AddComponent<Button>();
 
 	GetComponent<Text>()->SetText(L"adsfgdedsgfjvgklfds");
-	GetComponent<Text>()->SetFont(L"godoMaum.ttf", L"godoMaum");
+	GetComponent<Text>()->SetFont(L"godoMaum.ttf", L"godoMaum", 40, 30);
 
 	GetComponent<Image>()->LoadAndSetting(L"UI", L"Texture\\Button1.bmp", 5, 5);
 

@@ -10,7 +10,7 @@ public:
 public:
     void LateUpdate() override;
     void Render(HDC _hdc) override;
-    void SetFont(wstring fileName, wstring _fontName);
+    void SetFont(wstring fileName, wstring _fontName, int width, int height);
     void SetText(wstring _str);
     void ReleaseFont();
 private:
