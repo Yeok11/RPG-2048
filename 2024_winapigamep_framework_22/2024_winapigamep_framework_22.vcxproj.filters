@@ -137,6 +137,12 @@
     <ClInclude Include="Structs.h">
       <Filter>Engine\99. Header</Filter>
     </ClInclude>
+    <ClInclude Include="AudioSource.h">
+      <Filter>Engine\06. Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Lerp.h">
+      <Filter>Engine\99. Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2024_winapigamep_framework_22.rc">
@@ -223,6 +229,9 @@
       <Filter>Engine\06. Component</Filter>
     </ClCompile>
     <ClCompile Include="Text.cpp">
+      <Filter>Engine\06. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioSource.cpp">
       <Filter>Engine\06. Component</Filter>
     </ClCompile>
   </ItemGroup>

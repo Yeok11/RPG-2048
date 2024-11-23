@@ -1,6 +1,8 @@
 #pragma once
+#include <algorithm>
 #include "Component.h"
 #include "ResourceManager.h"
+
 class AudioSource :
     public Component
 {

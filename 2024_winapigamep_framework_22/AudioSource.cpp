@@ -26,6 +26,7 @@ void AudioSource::Stop(SOUND_CHANNEL _channel)
 
 void AudioSource::SetVolume(SOUND_CHANNEL _channel, float _vol)
 {
+	_vol = std::clamp(_vol, 0.f, 1.f);
 	GET_SINGLE(ResourceManager)->Volume(_channel, _vol);
 }
 

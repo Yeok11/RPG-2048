@@ -11,6 +11,7 @@ public:
 	virtual void LateUpdate();
 	virtual void Render(HDC _hdc) abstract;
 	void ComponentRender(HDC _hdc);
+	void ComponentInit(Vec2 _vSize, Vec2 _vOffsetPos);
 public:
 	void SetPos(Vec2 _vPos) { m_vPos = _vPos; }
 	void SetSize(Vec2 _vSize) { m_vSize = _vSize; }

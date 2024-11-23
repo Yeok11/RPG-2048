@@ -43,6 +43,17 @@ void Object::ComponentRender(HDC _hdc)
 	}
 }
 
+void Object::ComponentInit(Vec2 _vSize, Vec2 _vOffsetPos)
+{
+	for (Component* com : m_vecComponents)
+	{
+		if (com)
+		{
+			com->Init(_vSize, _vOffsetPos);
+		}
+	}
+}
+
 void Object::EnterCollision(Collider* _other)
 {
 }

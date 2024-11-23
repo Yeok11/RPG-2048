@@ -8,5 +8,6 @@ public:
 public:
     virtual void Update() override;
     virtual void Render(HDC _hdc) override;
+    virtual void LateUpdate() override;
 };
 
