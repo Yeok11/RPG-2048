@@ -10,10 +10,10 @@ Test::Test()
 	AddComponent<Image>();
 	AddComponent<Button>();
 
-	GetComponent<Text>()->SetText(L"adsfgdedsgfjvgklfds");
-	GetComponent<Text>()->SetFont(L"godoMaum.ttf", L"godoMaum", 40, 30);
+	//GetComponent<Text>()->SetFont(L"godoMaum.ttf", L"godoMaum", 0, 0);
+	GetComponent<Text>()->SetText(L"adsfgdedsg¾Æ »÷Áî12");
 
-	GetComponent<Image>()->LoadAndSetting(L"UI", L"Texture\\Button1.bmp", 5, 5);
+	GetComponent<Image>()->LoadAndSetting(L"UI", L"Texture\\Button_Stone.bmp", 5, 5);
 
 	GetComponent<Button>()->AddListener([]() {cout << "a" << endl; });
 	GetComponent<Button>()->AddListener([]() {cout << "b" << endl; });
@@ -34,6 +34,7 @@ void Test::Render(HDC _hdc)
 {
 	GetComponent<Image>()->Render(_hdc);
 	GetComponent<Text>()->Render(_hdc);
+
 }
 
 void Test::LateUpdate()

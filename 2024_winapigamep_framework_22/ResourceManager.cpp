@@ -6,6 +6,8 @@ void ResourceManager::Init()
 {
 	::GetCurrentDirectory(255, m_resourcePath);
 	wcscat_s(m_resourcePath, 255, L"\\Resource\\");
+	
+	
 	//::SetWindowText(GET_SINGLE(Core)->GetHwnd(), m_resourcePath);
 
  	FMOD::System_Create(&m_pSoundSystem); // 시스템 생성 함수
