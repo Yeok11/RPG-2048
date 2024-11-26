@@ -4,13 +4,16 @@ class Tile : public Object
 {
 	public:
 		Tile() {}
-		Tile(int _value, CALCULATE _cal)
+		Tile(int _value, CALCULATE _cal, OBJ_TYPE _type)
 		{
 			value = _value;
 			cal = _cal;
+			type = _type;
 		}
 		int value;
 		CALCULATE cal;
+		OBJ_TYPE type;
+
 
 		// Object을(를) 통해 상속됨
 		virtual void Update() override;

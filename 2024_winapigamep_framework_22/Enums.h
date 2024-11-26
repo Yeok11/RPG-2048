@@ -13,19 +13,19 @@ enum class LAYER
 enum class OBJ_TYPE
 {
 	NONE = 0,
+	MAIN,
 	NORMAL,
 	STONE,
 	WALL
 };
 
-enum class CALCULATE
+typedef enum class CALCULATE
 {
-	MAIN = 0,
-	PLUS,
+	PLUS = 0,
 	MINUS,
-	MULTI,
+	MULTIPLY,
 	DIVIDE
-};
+} CALC;
 
 
 
