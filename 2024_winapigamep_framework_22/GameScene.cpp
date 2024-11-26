@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Core.h"
+#include "InputManager.h"
 #include "GameScene.h"
 
 void Find(const vector<Tile> _tiles, int _cnt, int _findCnt, int _curValue, std::set<int>& _result);
@@ -8,13 +9,23 @@ void GameScene::Init()
 {
 	for (int i = 0; i < 5; i++)
 		for (int j = 0; j < 5; j++)
-			board[i][j] = Tile(0, CALC::PLUS, OBJ_TYPE::NONE);
+		{
+			if(i == 2 && j == 2)
+				board[i][j] = Tile(1, CALC::PLUS, OBJ_TYPE::MAIN);
+			else
+				board[i][j] = Tile(0, CALC::PLUS, OBJ_TYPE::NONE);
 
-	main = Tile(1, CALC::PLUS, OBJ_TYPE::MAIN);
-
-	board[2][2] = main;
-
+			AddObject(&board[i][j], LAYER::PLAYER);
+		}
 	FindTarget();
+}
+
+void GameScene::Update()
+{
+	if (GET_KEYDOWN(KEY_TYPE::N))
+	{
+		//cout << board[0][0];
+	}
 }
 
 void GameScene::FindTarget()

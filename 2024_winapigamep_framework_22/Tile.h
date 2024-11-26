@@ -4,12 +4,7 @@ class Tile : public Object
 {
 	public:
 		Tile() {}
-		Tile(int _value, CALCULATE _cal, OBJ_TYPE _type)
-		{
-			value = _value;
-			cal = _cal;
-			type = _type;
-		}
+		Tile(int _value, CALCULATE _cal, OBJ_TYPE _type);
 		int value;
 		CALCULATE cal;
 		OBJ_TYPE type;
