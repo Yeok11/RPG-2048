@@ -15,6 +15,7 @@ public:
     virtual void Init() override;
     virtual void Update() override;
 
+    void Move(KEY_TYPE _dir);
     void FindTarget();
     void ChooseNextNums();
     bool CheckTarget();

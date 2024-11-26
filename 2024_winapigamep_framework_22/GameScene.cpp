@@ -22,9 +22,50 @@ void GameScene::Init()
 
 void GameScene::Update()
 {
+	if (GET_KEYDOWN(KEY_TYPE::W))
+	{
+		
+	}
+	else if (GET_KEYDOWN(KEY_TYPE::A))
+	{
+
+	}
+	else if (GET_KEYDOWN(KEY_TYPE::S))
+	{
+
+	}
+	else if (GET_KEYDOWN(KEY_TYPE::D))
+	{
+
+	}
+
+	//Debuging
 	if (GET_KEYDOWN(KEY_TYPE::N))
 	{
-		//cout << board[0][0];
+		cout << endl;
+		cout << board[0][0].value << board[0][1].value << board[0][2].value << board[0][3].value << board[0][4].value << endl;
+		cout << board[1][0].value << board[1][1].value << board[1][2].value << board[1][3].value << board[1][4].value << endl;
+		cout << board[2][0].value << board[2][1].value << board[2][2].value << board[2][3].value << board[2][4].value << endl;
+		cout << board[3][0].value << board[3][1].value << board[3][2].value << board[3][3].value << board[3][4].value << endl;
+		cout << board[4][0].value << board[4][1].value << board[4][2].value << board[4][3].value << board[4][4].value << endl;
+	}
+}
+
+void GameScene::Move(KEY_TYPE _dir)
+{
+	vector<Tile> tiles();
+
+	if (_dir == KEY_TYPE::W || _dir == KEY_TYPE::S)
+	{
+		for (int j = 0; j < 5; j++)
+		{
+			
+		}
+		
+	}
+	else
+	{
+
 	}
 }
 
