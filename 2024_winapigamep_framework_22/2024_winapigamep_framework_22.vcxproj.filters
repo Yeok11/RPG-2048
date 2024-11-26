@@ -121,6 +121,11 @@
     <ClInclude Include="Tile.h">
       <Filter>Engine\03. Object</Filter>
     </ClInclude>
+    <ClInclude Include="Action.h" />
+    <ClInclude Include="Button.h" />
+    <ClInclude Include="Image.h" />
+    <ClInclude Include="Test.h" />
+    <ClInclude Include="Text.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2024_winapigamep_framework_22.rc">
@@ -199,5 +204,9 @@
     <ClCompile Include="Tile.cpp">
       <Filter>Engine\03. Object</Filter>
     </ClCompile>
+    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Image.cpp" />
+    <ClCompile Include="Test.cpp" />
+    <ClCompile Include="Text.cpp" />
   </ItemGroup>
 </Project>
