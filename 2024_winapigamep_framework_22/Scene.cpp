@@ -75,7 +75,6 @@ void Scene::Release()
 	{
 		for (UINT j = 0; j < m_vecObj[i].size(); ++j)
 		{
-
 			delete m_vecObj[i][j];
 		}
 		m_vecObj[i].clear();

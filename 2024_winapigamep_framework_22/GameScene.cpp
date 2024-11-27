@@ -87,7 +87,7 @@ void GameScene::Move(char _dir)
 					board[i][j] = fieldTile[i];
 					fieldTile[i]->SetPos(backBoard[i][j]->GetPos());
 				}
-				else
+				else if (_dir == 'S')
 				{
 					board[4 - i][j] = fieldTile[fieldTile.size() - i - 1];
 					fieldTile[fieldTile.size() - i - 1]->SetPos(backBoard[4 - i][j]->GetPos());
@@ -109,15 +109,18 @@ void GameScene::Move(char _dir)
 				}
 			}
 
-			if (_dir == 'A') //�ٽ� �ֱ�
+			for (int i = 0; i < fieldTile.size(); i++)
 			{
-				for (int i = 0; i < fieldTile.size(); i++)
+				if (_dir == 'A')
+				{
 					board[j][i] = fieldTile[i];
-			}
-			else if (_dir == 'D')
-			{
-				for (int i = 0; i < fieldTile.size(); i++)
+					fieldTile[i]->SetPos(backBoard[j][i]->GetPos());
+				}
+				else if (_dir == 'D')
+				{
 					board[j][4 - i] = fieldTile[fieldTile.size() - i - 1];
+					fieldTile[fieldTile.size() - i - 1]->SetPos(backBoard[j][4 - i]->GetPos());
+				}
 			}
 		}
 	}
