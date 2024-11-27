@@ -1,12 +1,11 @@
 #include "pch.h"
 #include "Tile.h"
 
-Tile::Tile(int _value, CALCULATE _cal, OBJ_TYPE _type, bool _isVirtual = false)
+Tile::Tile(int _value, CALCULATE _cal, OBJ_TYPE _type)
 {
 	value = _value;
 	cal = _cal;
 	type = _type;
-	isVirtual = _isVirtual;
 }
 
 Tile::~Tile()
@@ -14,6 +13,31 @@ Tile::~Tile()
 }
 
 
+
+std::string Tile::ShowValue()
+{
+	std::string mes;
+
+	switch (cal)
+	{
+	case CALCULATE::PLUS:
+		mes = "+";
+		break;
+	case CALCULATE::MINUS:
+		mes = "-";
+		break;
+	case CALCULATE::MULTIPLY:
+		mes = "X";
+		break;
+	case CALCULATE::DIVIDE:
+		mes = "/";
+		break;
+	}
+
+	mes += std::to_string(value);
+
+	return mes;
+}
 
 void Tile::Update()
 {

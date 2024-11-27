@@ -1,5 +1,6 @@
 #pragma once
 #include "fmod.hpp"
+#include "pch.h"
 #pragma comment(lib, "fmod_vc")
 enum class SOUND_CHANNEL //사운드마다 채널
 {
@@ -16,9 +17,11 @@ class ResourceManager
 	DECLARE_SINGLE(ResourceManager);
 public:
 	void Init();
+	void TileInit(wstring _imgName, OBJ_TYPE _objType);
 	const wchar_t* GetResPath() const { return m_resourcePath; }
 public:
 	Texture* TextureLoad(const wstring& _key, const wstring& _path);
+	Texture* TextureLoad(const OBJ_TYPE _type);
 	Texture* TextureFind(const wstring& _key);
 	void Release();
 public:
@@ -33,7 +36,10 @@ private:
 	wchar_t m_resourcePath[255] = {};
 	map<wstring, Texture*> m_mapTextures;
 	map<wstring, tSoundInfo*> m_mapSounds;
+	map<OBJ_TYPE, Texture*> objectTexture;
 	FMOD::System* m_pSoundSystem; // 사운드 시스템
 	FMOD::Channel* m_pChannel[(UINT)SOUND_CHANNEL::END]; // 오디오 채널
+
+
 };
 

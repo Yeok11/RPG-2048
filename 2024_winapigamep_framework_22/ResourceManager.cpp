@@ -7,7 +7,6 @@ void ResourceManager::Init()
 	::GetCurrentDirectory(255, m_resourcePath);
 	wcscat_s(m_resourcePath, 255, L"\\Resource\\");
 	
-	
 	//::SetWindowText(GET_SINGLE(Core)->GetHwnd(), m_resourcePath);
 
  	FMOD::System_Create(&m_pSoundSystem); // 시스템 생성 함수
@@ -15,6 +14,18 @@ void ResourceManager::Init()
 	if (m_pSoundSystem != nullptr)
 		m_pSoundSystem->init((int)SOUND_CHANNEL::END, FMOD_INIT_NORMAL, nullptr);
 
+}
+
+void ResourceManager::TileInit(wstring _imgName, OBJ_TYPE _objType)
+{
+	wstring path = m_resourcePath;
+	path += L"Texture\\" + _imgName;
+
+	Texture* pTex = new Texture;
+	pTex->Load(path);
+	objectTexture.insert({ _objType, pTex });
+
+	cout << "성공";
 }
 
 Texture* ResourceManager::TextureLoad(const wstring& _key, const wstring& _path)
@@ -35,6 +46,17 @@ Texture* ResourceManager::TextureLoad(const wstring& _key, const wstring& _path)
 	pTex->SetPath(texpath);
 	m_mapTextures.insert({_key,pTex});
 	return pTex;
+}
+
+Texture* ResourceManager::TextureLoad(const OBJ_TYPE _type)
+{
+	auto iter = objectTexture.find(_type);
+	if (iter != objectTexture.end())
+		return iter->second;
+
+	cout << "Tile Init 안함. Error";
+
+	return nullptr;
 }
 
 Texture* ResourceManager::TextureFind(const wstring& _key)

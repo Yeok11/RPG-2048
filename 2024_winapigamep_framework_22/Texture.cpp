@@ -28,5 +28,4 @@ void Texture::Load(const wstring& _path)
 	m_hDC = ::CreateCompatibleDC(GET_SINGLE(Core)->GetMainDC());
 	::SelectObject(m_hDC, m_hBit);
 	::GetObject(m_hBit, sizeof(BITMAP), &m_bitInfo);
-	int a = 0;
 }

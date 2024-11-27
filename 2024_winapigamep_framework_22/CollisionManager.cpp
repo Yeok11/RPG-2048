@@ -50,6 +50,7 @@ void CollisionManager::CheckReset()
 {
 	// 메모리 초기화
 	memset(m_arrLayer, 0, sizeof(UINT) * (UINT)LAYER::END);
+
 }
 
 void CollisionManager::CollisionLayerUpdate(LAYER _left, LAYER _right)

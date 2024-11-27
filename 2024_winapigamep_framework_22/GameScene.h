@@ -5,9 +5,11 @@
 class GameScene : public Scene
 {
 private:
-    Tile board[5][5]; // 현재 보드
+    Tile * backBoard[5][5]; // 현재 보드
+    Tile * board[5][5]; // 현재 보드
     vector<Tile> nextTiles; // 나올 타일들
-    Tile main;
+
+    Tile* mainTile;
     int targetNum = 0;
 
 public:
@@ -15,7 +17,7 @@ public:
     virtual void Init() override;
     virtual void Update() override;
 
-    void Move(KEY_TYPE _dir);
+    void Move(char _dir);
     void FindTarget();
     void ChooseNextNums();
     bool CheckTarget();

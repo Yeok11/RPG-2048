@@ -1,12 +1,12 @@
 #pragma once
 enum class LAYER
 {
-	DEFAULT,
+	DEFAULT = 0,
 	BACKGROUND,
-	PLAYER,
-	PROJECTILE,
+	NONE_TILE,
+	OBJECT_TILE,
 	ENEMY,
-	// UI
+	UI,
 	END = 30
 };
 
@@ -14,9 +14,10 @@ enum class OBJ_TYPE
 {
 	NONE = 0,
 	MAIN,
+	EMPTY,
 	NORMAL,
 	STONE,
-	WALL
+	//WALL
 };
 
 typedef enum class CALCULATE
