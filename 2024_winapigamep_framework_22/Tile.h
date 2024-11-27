@@ -1,6 +1,5 @@
 #pragma once
 #include "Object.h"
-#include "Image.h"
 
 class Tile : public Object
 {

@@ -36,5 +36,5 @@ void Text::SetText(wstring _str)
 
 void Text::ReleaseFont()
 {
-	//DeleteObject(m_font);
+	DeleteObject(m_font);
 }
