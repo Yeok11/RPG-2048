@@ -1,6 +1,8 @@
 #pragma once
 #include "Component.h"
 #include "GDISelector.h"
+#include "Object.h"
+
 class Text :
     public Component
 {

@@ -40,7 +40,7 @@ void Image::Render(HDC _hdc)
 		return;
 	}
 
-	Vec2 vPos = GetOffSetPos();
+	Vec2 vPos = GetOwner()->GetPos();
 	Vec2 vSize = GetSize();
 	int width = m_pTex->GetWidth();
 	int height = m_pTex->GetHeight();

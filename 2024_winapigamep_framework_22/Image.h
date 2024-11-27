@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+#include "Object.h"
 
 class Texture;
 class Image : public Component
