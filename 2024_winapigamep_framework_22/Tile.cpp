@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "Tile.h"
+#include "Text.h"
+#include "Image.h"
 
 
 Tile::Tile(int _value, CALCULATE _cal, OBJ_TYPE _type)
@@ -9,9 +11,12 @@ Tile::Tile(int _value, CALCULATE _cal, OBJ_TYPE _type)
 	type = _type;
 
 	AddComponent<Image>();
+	AddComponent<Text>();
 
-	GetComponent<Image>()->TileLoadSetting(type, 1, 1);
-	
+	GetComponent<Image>()->TileLoadSetting(type, 3, 3);
+	GetComponent<Text>()->SetFont(L"godoMaum.ttf", L"godoMaum", 0, 0);
+	std::string number = ShowValue();
+	GetComponent<Text>()->SetText(wstring().assign(number.begin(), number.end()));
 }
 
 Tile::~Tile()
@@ -53,4 +58,5 @@ void Tile::Update()
 void Tile::Render(HDC _hdc)
 {
 	GetComponent<Image>()->Render(_hdc);
+	GetComponent<Text>()->Render(_hdc);
 }

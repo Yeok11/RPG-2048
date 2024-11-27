@@ -16,9 +16,10 @@ void GameScene::Init()
 		for (int j = 0; j < 5; j++)
 		{
 			backBoard[i][j] = new Tile(0, CALC::PLUS, OBJ_TYPE::EMPTY);
-
-
+			backBoard[i][j]->SetSize({100, 100});
+			backBoard[i][j]->SetPos({(SCREEN_WIDTH / 2) + (i - 2) * 100, (SCREEN_HEIGHT / 2) + (j - 2) * 100});
 			AddObject(backBoard[i][j], LAYER::EMPTY_TILE);
+			backBoard[i][j]->ComponentInit(backBoard[i][j]->GetSize(), backBoard[i][j]->GetPos());
 		}
 	
 	for (int i = 0; i < 5; i++)
@@ -26,7 +27,10 @@ void GameScene::Init()
 			board[i][j] = new Tile();
 
 	board[2][2] = new Tile(1, CALCULATE::PLUS, OBJ_TYPE::MAIN);
+	board[2][2]->SetSize({ 100, 100 });
+	board[2][2]->SetPos({ (SCREEN_WIDTH / 2), (SCREEN_HEIGHT / 2)});
 	AddObject(board[2][2], LAYER::OBJECT_TILE);
+	board[2][2]->ComponentInit(board[2][2]->GetSize(), board[2][2]->GetPos());
 
 	//FindTarget();
 }
