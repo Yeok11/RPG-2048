@@ -21,12 +21,25 @@ void Image::LoadAndSetting(const wstring& _key, const wstring& _path, int multip
 	m_multipleHeight = multipleHeight;
 }
 
+void Image::TileLoadSetting(const OBJ_TYPE _type, int multipleWidth, int multipleHeight)
+{
+	m_pTex = GET_SINGLE(ResourceManager)->TextureLoad(_type);
+	m_multipleWidth = multipleWidth;
+	m_multipleHeight = multipleHeight;
+
+}
+
 void Image::LateUpdate()
 {
 }
 
 void Image::Render(HDC _hdc)
 {
+	if (m_pTex == nullptr) {
+		cout << "Null Texture Exception" << endl;
+		return;
+	}
+
 	Vec2 vPos = GetOffSetPos();
 	Vec2 vSize = GetSize();
 	int width = m_pTex->GetWidth();

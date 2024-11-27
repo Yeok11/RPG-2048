@@ -1,11 +1,17 @@
 #include "pch.h"
 #include "Tile.h"
 
+
 Tile::Tile(int _value, CALCULATE _cal, OBJ_TYPE _type)
 {
 	value = _value;
 	cal = _cal;
 	type = _type;
+
+	AddComponent<Image>();
+
+	GetComponent<Image>()->TileLoadSetting(type, 1, 1);
+	
 }
 
 Tile::~Tile()
@@ -46,4 +52,5 @@ void Tile::Update()
 
 void Tile::Render(HDC _hdc)
 {
+	GetComponent<Image>()->Render(_hdc);
 }

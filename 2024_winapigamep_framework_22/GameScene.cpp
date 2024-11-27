@@ -2,21 +2,28 @@
 #include "Core.h"
 #include "InputManager.h"
 #include "GameScene.h"
+#include "ResourceManager.h"
 
 void Find(const vector<Tile> _tiles, int _cnt, int _findCnt, int _curValue, std::set<int>& _result);
 
 void GameScene::Init()
 {
+	GET_SINGLE(ResourceManager)->TileInit(L"Button_empty.bmp", OBJ_TYPE::EMPTY);
+	GET_SINGLE(ResourceManager)->TileInit(L"Button.bmp", OBJ_TYPE::MAIN);;
+	GET_SINGLE(ResourceManager)->TileInit(L"Button_Normal.bmp", OBJ_TYPE::NORMAL);
+	GET_SINGLE(ResourceManager)->TileInit(L"Button_Stone.bmp", OBJ_TYPE::STONE);
 	for (int i = 0; i < 5; i++)
 		for (int j = 0; j < 5; j++)
 		{
 			backBoard[i][j] = new Tile(0, CALC::PLUS, OBJ_TYPE::EMPTY);
+
+
 			AddObject(backBoard[i][j], LAYER::EMPTY_TILE);
 		}
-
+	
 	for (int i = 0; i < 5; i++)
 		for (int j = 0; j < 5; j++)
-			backBoard[i][j] = new Tile();
+			board[i][j] = new Tile();
 
 	board[2][2] = new Tile(1, CALCULATE::PLUS, OBJ_TYPE::MAIN);
 	AddObject(board[2][2], LAYER::OBJECT_TILE);
