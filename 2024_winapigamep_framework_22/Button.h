@@ -21,7 +21,5 @@ public:
     }
 public:
     Action act;
-
-    
 };
 

@@ -14,9 +14,12 @@ Tile::Tile(int _value, CALCULATE _cal, OBJ_TYPE _type)
 	AddComponent<Text>();
 
 	GetComponent<Image>()->TileLoadSetting(type, 3, 3);
-	GetComponent<Text>()->SetFont(L"godoMaum.ttf", L"godoMaum", 0, 0);
-	std::string number = ShowValue();
-	GetComponent<Text>()->SetText(wstring().assign(number.begin(), number.end()));
+	GetComponent<Text>()->SetFont(L"PFStardust.ttf", L"PF Stardust", 0, 0);
+
+	if (_type != OBJ_TYPE::EMPTY) {
+		std::string number = ShowValue();
+		GetComponent<Text>()->SetText(wstring().assign(number.begin(), number.end()));
+	}
 }
 
 Tile::~Tile()

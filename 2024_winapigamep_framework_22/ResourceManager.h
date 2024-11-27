@@ -30,6 +30,7 @@ public:
 	void Stop(SOUND_CHANNEL _channel);
 	void Volume(SOUND_CHANNEL _channel, float _vol);
 	void Pause(SOUND_CHANNEL _channel, bool _ispause);
+public:
 private:
 	tSoundInfo* FindSound(const wstring& _key);
 private:

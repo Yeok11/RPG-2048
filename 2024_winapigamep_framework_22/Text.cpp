@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Text.h"
-#include <string>
+#include "ResourceManager.h"
 
 Text::Text()
 {
@@ -20,13 +20,13 @@ void Text::Render(HDC _hdc)
 	GDISelector font(_hdc, m_font);
 	Vec2 pos = GetOwner()->GetPos();
 	Vec2 size = GetSize();
-	TextOut(_hdc, (pos.x), (pos.y), m_text.c_str(), m_text.size());
-
+	TextOut(_hdc, (pos.x + size.x / 2 - 30), (pos.y + size.y / 2 - 30), m_text.c_str(), m_text.size());
 }
 
 void Text::SetFont(wstring fileName, wstring _fontName, int width, int height)
 {
-	AddFontResource(fileName.c_str());
+	wstring path = GET_SINGLE(ResourceManager)->GetResPath() + wstring(L"Font\\") + fileName;
+	AddFontResource(path.c_str());
 	m_font = CreateFont(width, height, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET,
 		0, 0, 0, VARIABLE_PITCH | FF_ROMAN, _fontName.c_str());
 }

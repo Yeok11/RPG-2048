@@ -57,6 +57,11 @@ void GameScene::Update()
 	}
 }
 
+GameScene::~GameScene()
+{
+
+}
+
 void GameScene::Move(char _dir)
 {
 	int cnt = 0;
