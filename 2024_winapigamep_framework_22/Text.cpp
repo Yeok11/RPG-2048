@@ -8,6 +8,7 @@ Text::Text()
 
 Text::~Text()
 {
+	ReleaseFont();
 }
 
 void Text::LateUpdate()
@@ -17,8 +18,9 @@ void Text::LateUpdate()
 void Text::Render(HDC _hdc)
 {
 	GDISelector font(_hdc, m_font);
-	Vec2 pos = GetOffSetPos();
-	TextOut(_hdc, pos.x, pos.y, m_text.c_str(), m_text.size());
+	Vec2 pos = GetOwner()->GetPos();
+	Vec2 size = GetSize();
+	TextOut(_hdc, (pos.x), (pos.y), m_text.c_str(), m_text.size());
 
 }
 
