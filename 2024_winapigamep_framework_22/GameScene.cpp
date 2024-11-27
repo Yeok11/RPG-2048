@@ -16,17 +16,21 @@ void GameScene::Init()
 		for (int j = 0; j < 5; j++)
 		{
 			backBoard[i][j] = new Tile(0, CALC::PLUS, OBJ_TYPE::EMPTY);
-
-
+			backBoard[i][j]->SetSize({100, 100});
+			backBoard[i][j]->SetPos({(SCREEN_WIDTH / 2) + (i - 2) * 100, (SCREEN_HEIGHT / 2) + (j - 2) * 100});
 			AddObject(backBoard[i][j], LAYER::EMPTY_TILE);
+			backBoard[i][j]->ComponentInit(backBoard[i][j]->GetSize(), backBoard[i][j]->GetPos());
 		}
 	
 	for (int i = 0; i < 5; i++)
 		for (int j = 0; j < 5; j++)
 			board[i][j] = new Tile();
 
-	board[2][2] = new Tile(2, CALCULATE::PLUS, OBJ_TYPE::MAIN);
+	board[2][2] = new Tile(1, CALCULATE::PLUS, OBJ_TYPE::MAIN);
+	board[2][2]->SetSize({ 100, 100 });
+	board[2][2]->SetPos({ (SCREEN_WIDTH / 2), (SCREEN_HEIGHT / 2)});
 	AddObject(board[2][2], LAYER::OBJECT_TILE);
+	board[2][2]->ComponentInit(board[2][2]->GetSize(), board[2][2]->GetPos());
 
 	board[2][3] = new Tile(1, CALCULATE::PLUS, OBJ_TYPE::MAIN);
 	AddObject(board[2][3], LAYER::OBJECT_TILE);
@@ -68,7 +72,7 @@ void GameScene::Move(char _dir)
 		for (int j = 0; j < 5; j++)
 		{
 			filedTiles = vector<Tile*>();
-			for (int i = 0; i < 5; i++)//Å¸ÀÏµé »©±â
+			for (int i = 0; i < 5; i++)//Å¸ï¿½Ïµï¿½ ï¿½ï¿½ï¿½ï¿½
 			{
 				if (board[i][j]->type != OBJ_TYPE::NONE) 
 				{
@@ -77,7 +81,7 @@ void GameScene::Move(char _dir)
 				}
 			}
 
-			if (_dir == 'W') //´Ù½Ã ³Ö±â
+			if (_dir == 'W') //ï¿½Ù½ï¿½ ï¿½Ö±ï¿½
 			{
 				for (int i = 0; i < filedTiles.size(); i++)
 					board[i][j] = filedTiles[i];
@@ -94,7 +98,7 @@ void GameScene::Move(char _dir)
 		for (int j = 0; j < 5; j++)
 		{
 			filedTiles = vector<Tile*>();
-			for (int i = 0; i < 5; i++)//Å¸ÀÏµé »©±â
+			for (int i = 0; i < 5; i++)//Å¸ï¿½Ïµï¿½ ï¿½ï¿½ï¿½ï¿½
 			{
 				if (board[j][i]->type != OBJ_TYPE::NONE)
 				{
@@ -103,7 +107,7 @@ void GameScene::Move(char _dir)
 				}
 			}
 
-			if (_dir == 'A') //´Ù½Ã ³Ö±â
+			if (_dir == 'A') //ï¿½Ù½ï¿½ ï¿½Ö±ï¿½
 			{
 				for (int i = 0; i < filedTiles.size(); i++)
 					board[j][i] = filedTiles[i];
@@ -165,7 +169,7 @@ bool GameScene::CheckTarget()
 
 
 
-#pragma region  °ª ÁöÁ¤ ¾Ë°í¸®µë
+#pragma region  ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ë°ï¿½ï¿½ï¿½ï¿½
 int NumberToInt(const int _oldValue, const Tile _curValue)
 {
 	switch (_curValue.cal)
