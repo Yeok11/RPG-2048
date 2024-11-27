@@ -17,7 +17,7 @@ void GameScene::Init()
 		{
 			backBoard[i][j] = new Tile(0, CALC::PLUS, OBJ_TYPE::EMPTY);
 			backBoard[i][j]->SetSize({100, 100});
-			backBoard[i][j]->SetPos({(SCREEN_WIDTH / 2) + (i - 2) * 100, (SCREEN_HEIGHT / 2) + (j - 2) * 100});
+			backBoard[i][j]->SetPos({(SCREEN_WIDTH / 2) + (j - 2) * 100, (SCREEN_HEIGHT / 2) + (i - 2) * 100});
 			AddObject(backBoard[i][j], LAYER::EMPTY_TILE);
 			backBoard[i][j]->ComponentInit(backBoard[i][j]->GetSize(), backBoard[i][j]->GetPos());
 		}
@@ -31,12 +31,6 @@ void GameScene::Init()
 	board[2][2]->SetPos({ (SCREEN_WIDTH / 2), (SCREEN_HEIGHT / 2)});
 	AddObject(board[2][2], LAYER::OBJECT_TILE);
 	board[2][2]->ComponentInit(board[2][2]->GetSize(), board[2][2]->GetPos());
-
-	board[2][3] = new Tile(1, CALCULATE::PLUS, OBJ_TYPE::MAIN);
-	AddObject(board[2][3], LAYER::OBJECT_TILE);
-
-	board[1][2] = new Tile(1, CALCULATE::PLUS, OBJ_TYPE::MAIN);
-	AddObject(board[1][2], LAYER::OBJECT_TILE);
 
 	//FindTarget();
 }
@@ -61,61 +55,69 @@ void GameScene::Update()
 			cout << endl;
 		}
 	}
+
+	if (GET_KEYDOWN(KEY_TYPE::M))
+	{
+		cout << board[2][2]->GetPos().x << board[2][2]->GetPos().y << endl;
+	}
 }
 
 void GameScene::Move(char _dir)
 {	
-	vector<Tile*> filedTiles;
+	vector<Tile*> fieldTile;
 
 	if (_dir == 'W' || _dir == 'S')
 	{
 		for (int j = 0; j < 5; j++)
 		{
-			filedTiles = vector<Tile*>();
+			fieldTile = vector<Tile*>();
 			for (int i = 0; i < 5; i++)//Ÿ�ϵ� ����
 			{
 				if (board[i][j]->type != OBJ_TYPE::NONE) 
 				{
-					filedTiles.push_back(board[i][j]);
+					fieldTile.push_back(board[i][j]);
 					board[i][j] = new Tile();
 				}
 			}
 
-			if (_dir == 'W') //�ٽ� �ֱ�
+			for (int i = 0; i < fieldTile.size(); i++)
 			{
-				for (int i = 0; i < filedTiles.size(); i++)
-					board[i][j] = filedTiles[i];
-			}
-			else
-			{
-				for (int i = 0; i < filedTiles.size(); i++)
-					board[4 - i][j] = filedTiles[filedTiles.size() - i - 1];
-			}
+				if (_dir == 'W') 
+				{
+					board[i][j] = fieldTile[i];
+					fieldTile[i]->SetPos(backBoard[i][j]->GetPos());
+				}
+				else
+				{
+					board[4 - i][j] = fieldTile[fieldTile.size() - i - 1];
+					fieldTile[fieldTile.size() - i - 1]->SetPos(backBoard[4 - i][j]->GetPos());
+				}
+			}	
 		}
 	}
 	else
 	{
 		for (int j = 0; j < 5; j++)
 		{
-			filedTiles = vector<Tile*>();
+			fieldTile = vector<Tile*>();
 			for (int i = 0; i < 5; i++)//Ÿ�ϵ� ����
 			{
 				if (board[j][i]->type != OBJ_TYPE::NONE)
 				{
-					filedTiles.push_back(board[j][i]);
+					fieldTile.push_back(board[j][i]);
 					board[j][i] = new Tile();
 				}
 			}
 
 			if (_dir == 'A') //�ٽ� �ֱ�
 			{
-				for (int i = 0; i < filedTiles.size(); i++)
-					board[j][i] = filedTiles[i];
+				for (int i = 0; i < fieldTile.size(); i++)
+					board[j][i] = fieldTile[i];
 			}
 			else if (_dir == 'D')
 			{
-				for (int i = 0; i < filedTiles.size(); i++)
-					board[j][4 - i] = filedTiles[filedTiles.size() - i - 1];
+				for (int i = 0; i < fieldTile.size(); i++)
+					board[j][4 - i] = fieldTile[fieldTile.size() - i - 1];
 			}
 		}
 	}
@@ -169,7 +171,7 @@ bool GameScene::CheckTarget()
 
 
 
-#pragma region  �� ���� �˰����
+#pragma region  sfd
 int NumberToInt(const int _oldValue, const Tile _curValue)
 {
 	switch (_curValue.cal)
