@@ -3,7 +3,7 @@ enum class LAYER
 {
 	DEFAULT = 0,
 	BACKGROUND,
-	NONE_TILE,
+	EMPTY_TILE,
 	OBJECT_TILE,
 	ENEMY,
 	UI,

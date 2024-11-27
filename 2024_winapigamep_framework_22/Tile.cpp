@@ -16,8 +16,9 @@ Tile::~Tile()
 
 std::string Tile::ShowValue()
 {
-	std::string mes;
+	if (this == nullptr) return " 0";
 
+	std::string mes;
 	switch (cal)
 	{
 	case CALCULATE::PLUS:

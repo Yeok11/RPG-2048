@@ -10,31 +10,26 @@ void GameScene::Init()
 	for (int i = 0; i < 5; i++)
 		for (int j = 0; j < 5; j++)
 		{
-			backBoard[i][j] = new Tile();
-			AddObject(backBoard[i][j], LAYER::NONE_TILE);
+			backBoard[i][j] = new Tile(0, CALC::PLUS, OBJ_TYPE::EMPTY);
+			AddObject(backBoard[i][j], LAYER::EMPTY_TILE);
 		}
 
-	FindTarget();
+	for (int i = 0; i < 5; i++)
+		for (int j = 0; j < 5; j++)
+			backBoard[i][j] = new Tile();
+
+	board[2][2] = new Tile(1, CALCULATE::PLUS, OBJ_TYPE::MAIN);
+	AddObject(board[2][2], LAYER::OBJECT_TILE);
+
+	//FindTarget();
 }
 
 void GameScene::Update()
 {
-	if (GET_KEYDOWN(KEY_TYPE::W))
-	{
-		
-	}
-	else if (GET_KEYDOWN(KEY_TYPE::A))
-	{
-
-	}
-	else if (GET_KEYDOWN(KEY_TYPE::S))
-	{
-
-	}
-	else if (GET_KEYDOWN(KEY_TYPE::D))
-	{
-
-	}
+	if (GET_KEYDOWN(KEY_TYPE::W)) Move('W');
+	else if (GET_KEYDOWN(KEY_TYPE::A)) Move('A');
+	else if (GET_KEYDOWN(KEY_TYPE::S)) Move('S');
+	else if (GET_KEYDOWN(KEY_TYPE::D)) Move('D');
 
 	//Debuging
 	if (GET_KEYDOWN(KEY_TYPE::N))
@@ -44,7 +39,7 @@ void GameScene::Update()
 		{
 			for (int j = 0; j < 5; j++)
 			{
-				cout << board[i][j]->ShowValue();
+				cout << board[i][j]->ShowValue() << " ";
 			}
 			cout << endl;
 		}
@@ -53,17 +48,28 @@ void GameScene::Update()
 
 void GameScene::Move(char _dir)
 {
+	int cnt = 0;
+
 	if (_dir == 'W' || _dir == 'S')
 	{
 		for (int j = 0; j < 5; j++)
 		{
-			
+
+			for (int i = 0; i < 5; i++)
+			{
+
+			}
 		}
-		
 	}
 	else
 	{
+		for (int i = 0; i < 5; i++)
+		{
+			for (int j = 0; j < 5; j++)
+			{
 
+			}
+		}
 	}
 }
 
