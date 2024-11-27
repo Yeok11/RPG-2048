@@ -25,8 +25,14 @@ void GameScene::Init()
 		for (int j = 0; j < 5; j++)
 			board[i][j] = new Tile();
 
-	board[2][2] = new Tile(1, CALCULATE::PLUS, OBJ_TYPE::MAIN);
+	board[2][2] = new Tile(2, CALCULATE::PLUS, OBJ_TYPE::MAIN);
 	AddObject(board[2][2], LAYER::OBJECT_TILE);
+
+	board[2][3] = new Tile(1, CALCULATE::PLUS, OBJ_TYPE::MAIN);
+	AddObject(board[2][3], LAYER::OBJECT_TILE);
+
+	board[1][2] = new Tile(1, CALCULATE::PLUS, OBJ_TYPE::MAIN);
+	AddObject(board[1][2], LAYER::OBJECT_TILE);
 
 	//FindTarget();
 }
@@ -54,27 +60,58 @@ void GameScene::Update()
 }
 
 void GameScene::Move(char _dir)
-{
-	int cnt = 0;
+{	
+	vector<Tile*> filedTiles;
 
 	if (_dir == 'W' || _dir == 'S')
 	{
 		for (int j = 0; j < 5; j++)
 		{
-
-			for (int i = 0; i < 5; i++)
+			filedTiles = vector<Tile*>();
+			for (int i = 0; i < 5; i++)//타일들 빼기
 			{
+				if (board[i][j]->type != OBJ_TYPE::NONE) 
+				{
+					filedTiles.push_back(board[i][j]);
+					board[i][j] = new Tile();
+				}
+			}
 
+			if (_dir == 'W') //다시 넣기
+			{
+				for (int i = 0; i < filedTiles.size(); i++)
+					board[i][j] = filedTiles[i];
+			}
+			else
+			{
+				for (int i = 0; i < filedTiles.size(); i++)
+					board[4 - i][j] = filedTiles[filedTiles.size() - i - 1];
 			}
 		}
 	}
 	else
 	{
-		for (int i = 0; i < 5; i++)
+		for (int j = 0; j < 5; j++)
 		{
-			for (int j = 0; j < 5; j++)
+			filedTiles = vector<Tile*>();
+			for (int i = 0; i < 5; i++)//타일들 빼기
 			{
+				if (board[j][i]->type != OBJ_TYPE::NONE)
+				{
+					filedTiles.push_back(board[j][i]);
+					board[j][i] = new Tile();
+				}
+			}
 
+			if (_dir == 'A') //다시 넣기
+			{
+				for (int i = 0; i < filedTiles.size(); i++)
+					board[j][i] = filedTiles[i];
+			}
+			else if (_dir == 'D')
+			{
+				for (int i = 0; i < filedTiles.size(); i++)
+					board[j][4 - i] = filedTiles[filedTiles.size() - i - 1];
 			}
 		}
 	}
