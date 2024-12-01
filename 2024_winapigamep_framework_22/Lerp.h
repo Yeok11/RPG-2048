@@ -23,7 +23,7 @@ bool IsEnd(Vec2 start, Vec2 end) {
     return start == end;
 }
 
-void DOMove(Vec2& start, const Vec2& end) {
+void DOLerp(Vec2& start, const Vec2& end) {
 
     float elapsedTime = 0.0f;
 
@@ -33,7 +33,7 @@ void DOMove(Vec2& start, const Vec2& end) {
         start = Lerp(start, end, t);
 
         GET_SINGLE(Core)->CoreRender();
-        //GET_SINGLE(Core)->CoreUpdate();
+        GET_SINGLE(Core)->CoreUpdate();
 
         elapsedTime += fDT;
     }
