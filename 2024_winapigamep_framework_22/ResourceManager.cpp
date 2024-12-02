@@ -83,6 +83,14 @@ void ResourceManager::Release()
 	}
 	m_mapSounds.clear();
 
+	map<OBJ_TYPE, Texture*>::iterator iterOBJ;
+	for (iterOBJ = objectTexture.begin(); iterOBJ != objectTexture.end(); ++iterOBJ)
+	{
+		if (nullptr != iterOBJ->second)
+			delete iterOBJ->second;
+	}
+	objectTexture.clear();
+
 	// 다 쓰고 난 후 시스템 닫고 반환
 	m_pSoundSystem->close();
 	m_pSoundSystem->release();
