@@ -27,7 +27,7 @@ void Text::SetFont(wstring fileName, wstring _fontName, int width, int height)
 {
 	wstring path = GET_SINGLE(ResourceManager)->GetResPath() + wstring(L"Font\\") + fileName;
 	AddFontResource(path.c_str());
-	m_font = CreateFont(width, height, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET,
+	m_font = CreateFont(height, width, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET,
 		0, 0, 0, VARIABLE_PITCH | FF_ROMAN, _fontName.c_str());
 }
 

@@ -49,6 +49,17 @@ public:
 		}
 		return component;
 	}
+	template <typename T>
+	const T* GetComponent() const {
+		T* component = nullptr;
+		for (Component* com : m_vecComponents)
+		{
+			component = dynamic_cast<T*>(com);
+			if (component)
+				break;
+		}
+		return component;
+	}
 private:
 	//POINT m_ptPos;
 	//POINT m_ptSize;
