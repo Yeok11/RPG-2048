@@ -12,6 +12,12 @@ public:
 	bool Init(HWND _hwnd);
 	void GameLoop();
 	void CleanUp();
+	void CoreRender() {
+		MainRender();
+	}
+	void CoreUpdate() {
+		MainUpdate();
+	}
 private:
 	void MainUpdate();
 	void MainRender();

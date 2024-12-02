@@ -21,5 +21,6 @@ public:
     void Move(char _dir);
     void FindTarget();
     void ChooseNextNums();
+    void AddTile(Tile tile, Vec2 pos, Vec2 size, int i, int j);
     bool CheckTarget();
 };

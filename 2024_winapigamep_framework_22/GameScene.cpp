@@ -3,11 +3,14 @@
 #include "InputManager.h"
 #include "GameScene.h"
 #include "ResourceManager.h"
+#include "Lerp.h"
+#include "TimeManager.h"
 
 void Find(const vector<Tile> _tiles, int _cnt, int _findCnt, int _curValue, std::set<int>& _result);
 
 void GameScene::Init()
 {
+	#pragma region Tile Init
 	GET_SINGLE(ResourceManager)->TileInit(L"Button_empty.bmp", OBJ_TYPE::EMPTY);
 	GET_SINGLE(ResourceManager)->TileInit(L"Button.bmp", OBJ_TYPE::MAIN);;
 	GET_SINGLE(ResourceManager)->TileInit(L"Button_Normal.bmp", OBJ_TYPE::NORMAL);
@@ -40,6 +43,8 @@ void GameScene::Update()
 	else if (GET_KEYDOWN(KEY_TYPE::A)) Move('A');
 	else if (GET_KEYDOWN(KEY_TYPE::S)) Move('S');
 	else if (GET_KEYDOWN(KEY_TYPE::D)) Move('D');
+	else if (GET_KEYDOWN(KEY_TYPE::E)) AddTile(Tile(10, CALCULATE::PLUS, OBJ_TYPE::STONE), {SCREEN_WIDTH / 2 , SCREEN_HEIGHT / 2}, {100, 100}, 2, 2);
+
 
 	//Debuging
 	if (GET_KEYDOWN(KEY_TYPE::N))
@@ -59,6 +64,7 @@ void GameScene::Update()
 	{
 		cout << board[2][2]->GetPos().x << board[2][2]->GetPos().y << endl;
 	}
+	//Scene::Update();
 }
 
 GameScene::~GameScene()
@@ -89,12 +95,16 @@ void GameScene::Move(char _dir)
 				if (_dir == 'W') 
 				{
 					board[i][j] = fieldTile[i];
-					fieldTile[i]->SetPos(backBoard[i][j]->GetPos());
+					cout << fieldTile[i]->GetPos().x << "," << fieldTile[i]->GetPos().y << endl;
+					cout << backBoard[i][j]->GetPos().x << "," << backBoard[i][j]->GetPos().y << endl;
+					DOLerp(fieldTile[i]->GetPos(), backBoard[i][j]->GetPos());
+					//fieldTile[i]->SetPos(backBoard[i][j]->GetPos());
 				}
 				else if (_dir == 'S')
 				{
 					board[4 - i][j] = fieldTile[fieldTile.size() - i - 1];
-					fieldTile[fieldTile.size() - i - 1]->SetPos(backBoard[4 - i][j]->GetPos());
+					DOLerp(fieldTile[fieldTile.size() - i - 1]->GetPos(), backBoard[4 - i][j]->GetPos());
+					//fieldTile[fieldTile.size() - i - 1]->SetPos(backBoard[4 - i][j]->GetPos());
 				}
 			}	
 		}
@@ -118,12 +128,15 @@ void GameScene::Move(char _dir)
 				if (_dir == 'A')
 				{
 					board[j][i] = fieldTile[i];
-					fieldTile[i]->SetPos(backBoard[j][i]->GetPos());
+					DOLerp(fieldTile[i]->GetPos(), backBoard[j][i]->GetPos());
+					//fieldTile[i]->SetPos(Lerp(, , fDT / 2));
+					//fieldTile[i]->SetPos(backBoard[j][i]->GetPos());
 				}
 				else if (_dir == 'D')
 				{
 					board[j][4 - i] = fieldTile[fieldTile.size() - i - 1];
-					fieldTile[fieldTile.size() - i - 1]->SetPos(backBoard[j][4 - i]->GetPos());
+					DOLerp(fieldTile[fieldTile.size() - i - 1]->GetPos(), backBoard[j][4 - i]->GetPos());
+					//fieldTile[fieldTile.size() - i - 1]->SetPos(backBoard[j][4 - i]->GetPos());
 				}
 			}
 		}
@@ -149,6 +162,16 @@ void GameScene::FindTarget()
 
 void GameScene::ChooseNextNums()
 {
+}
+
+void GameScene::AddTile(Tile tile, Vec2 pos, Vec2 size, int i, int j)
+{
+	Tile* newTile = new Tile(tile.value, tile.cal, tile.type);
+	newTile->SetPos(pos);
+	newTile->SetSize(size);
+	AddObject(newTile, LAYER::OBJECT_TILE);
+	newTile->ComponentInit(size, pos);
+	board[i][j] = newTile;
 }
 
 bool GameScene::CheckTarget()

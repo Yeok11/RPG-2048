@@ -15,7 +15,7 @@ public:
 public:
 	void SetPos(Vec2 _vPos) { m_vPos = _vPos; }
 	void SetSize(Vec2 _vSize) { m_vSize = _vSize; }
-	const Vec2& GetPos() const { return m_vPos; }
+	Vec2& GetPos() { return m_vPos; }
 	const Vec2& GetSize() const { return m_vSize; }
 public:
 	virtual void EnterCollision(Collider* _other);
