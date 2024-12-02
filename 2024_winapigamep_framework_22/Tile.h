@@ -4,13 +4,8 @@
 class Tile : public Object
 {
 public:
-	Tile()
-	{
-		value = 0;
-		cal = CALC::PLUS;
-		type = OBJ_TYPE::NONE;
-	};
-	Tile(int _value, CALCULATE _cal, OBJ_TYPE _type);
+	Tile();
+	Tile(int _value, CALCULATE _cal, OBJ_TYPE _type, bool _show = true);
 	~Tile();
 
 	int value;
@@ -20,6 +15,8 @@ private:
 
 public:
 	std::string ShowValue();
+
+	void Init();
 
 private:
 	// Object을(를) 통해 상속됨
