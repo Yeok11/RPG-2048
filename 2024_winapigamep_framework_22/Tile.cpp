@@ -4,23 +4,23 @@
 #include "Image.h"
 
 
-Tile::Tile(int _value, CALCULATE _cal, OBJ_TYPE _type)
+
+
+Tile::Tile(int _value, CALCULATE _cal, OBJ_TYPE _type, bool _show)
 {
 	value = _value;
 	cal = _cal;
 	type = _type;
 
-	AddComponent<Image>();
-	AddComponent<Text>();
-
-	GetComponent<Image>()->TileLoadSetting(type, 3, 3);
-	GetComponent<Text>()->SetFont(L"PFStardust.ttf", L"PF Stardust", 0, 0);
-
-	if (_type != OBJ_TYPE::EMPTY) {
-		std::string number = ShowValue();
-		GetComponent<Text>()->SetText(wstring().assign(number.begin(), number.end()));
-	}
+	if (_show) Init();
 }
+
+Tile::Tile()
+{
+	value = 0;
+	cal = CALC::PLUS;
+	type = OBJ_TYPE::NONE;
+};
 
 Tile::~Tile()
 {
@@ -54,12 +54,28 @@ std::string Tile::ShowValue()
 	return mes;
 }
 
+void Tile::Init()
+{
+	AddComponent<Image>();
+	AddComponent<Text>();
+
+	GetComponent<Image>()->TileLoadSetting(type, 3, 3);
+	GetComponent<Text>()->SetFont(L"PFStardust.ttf", L"PF Stardust", 0, 0);
+
+	if (type != OBJ_TYPE::EMPTY) {
+		std::string number = ShowValue();
+		GetComponent<Text>()->SetText(wstring().assign(number.begin(), number.end()));
+	}
+}
+
 void Tile::Update()
 {
 }
 
 void Tile::Render(HDC _hdc)
 {
+	if (type == OBJ_TYPE::NONE) return;
+
 	GetComponent<Image>()->Render(_hdc);
 	GetComponent<Text>()->Render(_hdc);
 }

@@ -24,13 +24,12 @@ void GameScene::Init()
 	
 	for (int i = 0; i < 5; i++)
 		for (int j = 0; j < 5; j++)
+		{
 			board[i][j] = new Tile();
+			AddObject(board[i][j], LAYER::OBJECT_TILE);
+		}
 
-	board[2][2] = new Tile(1, CALCULATE::PLUS, OBJ_TYPE::MAIN);
-	board[2][2]->SetSize({ 100, 100 });
-	board[2][2]->SetPos({ (SCREEN_WIDTH / 2), (SCREEN_HEIGHT / 2)});
-	AddObject(board[2][2], LAYER::OBJECT_TILE);
-	board[2][2]->ComponentInit(board[2][2]->GetSize(), board[2][2]->GetPos());
+	
 
 	//FindTarget();
 }
