@@ -1,9 +1,9 @@
 #pragma once
 #include <functional>
-#include "Object.h"
+#include "MouseDetectObject.h"
 
 class UI :
-    public Object
+    public MouseDetectObject
 {
 public:
     UI();

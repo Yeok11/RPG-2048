@@ -143,6 +143,12 @@
     <ClInclude Include="Lerp.h">
       <Filter>Engine\99. Header</Filter>
     </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>Engine\03. Object</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseDetectObject.h">
+      <Filter>Engine\03. Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2024_winapigamep_framework_22.rc">
@@ -234,5 +240,14 @@
     <ClCompile Include="AudioSource.cpp">
       <Filter>Engine\06. Component</Filter>
     </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>Engine\03. Object</Filter>
+    </ClCompile>
+    <ClCompile Include="MouseDetectObject.cpp">
+      <Filter>Engine\03. Object</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

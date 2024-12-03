@@ -1,10 +1,13 @@
 #include "pch.h"
-#include "UI.h"
-#include "Image.h"
 #include "Button.h"
+#include "Image.h"
 #include "Text.h"
+#include "UI.h"
 
 UI::UI()
+	:m_isImage(false),
+	m_isButton(false),
+	m_isText(false)
 {
 }
 
@@ -19,7 +22,7 @@ UI::~UI()
 
 void UI::Update()
 {
-	
+	MouseDetectObject::Update();
 }
 
 void UI::LateUpdate()
@@ -90,5 +93,20 @@ void UI::Init(bool isImage, bool isText, bool isButton)
 	m_isButton = isButton;
 	m_isText = isText;
 
-	ComponentInit(GetSize(), GetPos());
+	MouseEnter += [&]() 
+		{
+			ComponentInit(GetSize() + Vec2(1.2f, 1.2f), GetPos()); 
+			if (m_isImage) {
+				GetComponent<Image>()->SetMultiple(2.1f, 2.1f);
+				SetPos(GetPos() - Vec2(0.1f, 0.1f));
+			}
+		};
+	MouseExit += [&]() 
+		{ 
+			ComponentInit(GetSize() - Vec2(1.2f, 1.2f), GetPos());
+			if (m_isImage) {
+				GetComponent<Image>()->SetMultiple(2, 2);
+				SetPos(GetPos() + Vec2(0.1f, 0.1f));
+			}
+		};
 }
