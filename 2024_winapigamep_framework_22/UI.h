@@ -8,7 +8,7 @@ class UI :
 {
 public:
     UI();
-    UI(bool isImage, bool isText, bool isButton = false);
+    UI(bool isImage, bool isText, bool isAudio, bool isButton = false);
     ~UI() override;
     void Update() override;
     void LateUpdate() override;
@@ -31,9 +31,6 @@ public:
     void SetVolume(SOUND_CHANNEL _channel, float _vol);
     void Pause(SOUND_CHANNEL _channel, bool _ispause);
 private:
-    void Init(bool isImage, bool isText, bool isButton);
-    bool m_isImage;
-    bool m_isButton;
-    bool m_isText;
+    void Init(bool isImage, bool isText, bool isButton, bool isAudio);
 };
 

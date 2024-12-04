@@ -5,18 +5,8 @@
 
 void TitleScene::Init()
 {
-
-#pragma region Background                         
-	/*UI* bg = new UI();
-	bg->SetPos({ 0, 0 });
-	bg->SetSize({ SCREEN_WIDTH, SCREEN_HEIGHT });
-	bg->LoadAndSetting(L"BG", L"Texture\\BG.bmp", 11, 11);
-	bg->ComponentInit(bg->GetSize(), bg->GetPos());
-	AddObject(bg, LAYER::BACKGROUND);*/
-#pragma endregion
-
 #pragma region Btn
-	UI* startBtn = new UI(true, true, true);
+	UI* startBtn = new UI(true, true, false, true);
 	startBtn->SetPos({ 585, 400 });
 	startBtn->SetSize({ 120, 50 });
 	startBtn->LoadAndSetting(L"BtnUI", L"Texture\\Button_Long.bmp", 2, 2);
@@ -27,7 +17,7 @@ void TitleScene::Init()
 	startBtn->Play(L"aaa");
 	AddObject(startBtn, LAYER::UI);
 
-	UI* exitBtn = new UI(true, true, true);
+	UI* exitBtn = new UI(true, true, false, true);
 	exitBtn->SetPos({ 585, 500 });
 	exitBtn->SetSize({ 120, 50 });
 	exitBtn->LoadAndSetting(L"BtnUI", L"Texture\\Button_Long.bmp", 2, 2);
@@ -39,7 +29,7 @@ void TitleScene::Init()
 #pragma endregion
 
 #pragma region Text
-	UI* titleText = new UI(false, true, false);
+	UI* titleText = new UI(false, true, false, false);
 	titleText->SetPos({ 600, 200 });
 	titleText->SetFont(L"PFStardust.ttf", L"PF Stardust", 60, 80);
 	titleText->SetText(L"¸ô?·ç");
