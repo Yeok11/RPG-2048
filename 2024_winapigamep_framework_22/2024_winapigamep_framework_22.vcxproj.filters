@@ -143,6 +143,9 @@
     <ClInclude Include="Lerp.h">
       <Filter>Engine\99. Header</Filter>
     </ClInclude>
+    <ClInclude Include="Board.h">
+      <Filter>Engine\03. Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2024_winapigamep_framework_22.rc">
@@ -233,6 +236,9 @@
     </ClCompile>
     <ClCompile Include="AudioSource.cpp">
       <Filter>Engine\06. Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Board.cpp">
+      <Filter>Engine\03. Object</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

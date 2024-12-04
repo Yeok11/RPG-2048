@@ -1,6 +1,7 @@
 #pragma once
 #include "Object.h"
 
+class GameScene;
 class Tile : public Object
 {
 public:
@@ -17,6 +18,25 @@ public:
 	std::string ShowValue();
 
 	void Init();
+	void Move();
+	void Calculate(Tile * _tile)
+	{
+		switch (_tile->cal)
+		{
+		case CALC::PLUS:
+			value += _tile->value;
+			break;
+		case CALC::MINUS:
+			value -= _tile->value;
+			break;
+		case CALC::MULTIPLY:
+			value *= _tile->value;
+			break;
+		case CALC::DIVIDE:
+			value /= _tile->value;
+			break;
+		}
+	}
 
 private:
 	// Object을(를) 통해 상속됨

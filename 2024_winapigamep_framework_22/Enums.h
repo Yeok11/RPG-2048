@@ -7,7 +7,7 @@ enum class LAYER
 	OBJECT_TILE,
 	ENEMY,
 	UI,
-	END = 30
+	END
 };
 
 enum class OBJ_TYPE
@@ -18,6 +18,13 @@ enum class OBJ_TYPE
 	NORMAL,
 	STONE,
 	//WALL
+};
+
+enum class GAME_STATE
+{
+	INIT = 0,
+	PLAY,
+	MOVE
 };
 
 typedef enum class CALCULATE
