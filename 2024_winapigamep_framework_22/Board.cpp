@@ -19,7 +19,7 @@ void Board::Move(Vec2 _lastPos, Vec2 _dir)
 	cout << "is Not None" << endl;
 
 
-	
+	#pragma region Move
 	if (data[moveY][moveX]->type == OBJ_TYPE::MAIN && data[moveY][moveX]->merge)
 	{
 		Tile* main = data[moveY][moveX];
@@ -37,6 +37,7 @@ void Board::Move(Vec2 _lastPos, Vec2 _dir)
 
 		main->GetComponent<Text>()->SetText(main->ShowValue());
 	}
+
 	else if (data[moveY][moveX]->type == OBJ_TYPE::NONE)
 	{
 		cout << posX << " / " << posY << " -> " << moveX << " / " << moveY << "  move" << endl;
@@ -68,6 +69,7 @@ void Board::Move(Vec2 _lastPos, Vec2 _dir)
 
 		GET_SINGLE(EventManager)->DeleteObject(before);
 	}
+#pragma endregion
 }
 
 void Board::AddToBoard(Tile* _tile, Vec2 _arrPos, Vec2 _tilePos)

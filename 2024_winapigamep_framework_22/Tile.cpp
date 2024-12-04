@@ -77,6 +77,8 @@ void Tile::Init()
 
 void Tile::Move()
 {
+	Vec2 pos = GetPos();
+	SetPos({ pos.x + moveValue.x, pos.y + moveValue.y });
 }
 
 void Tile::Update()
