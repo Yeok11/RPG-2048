@@ -25,7 +25,7 @@ void ResourceManager::TileInit(wstring _imgName, OBJ_TYPE _objType)
 	pTex->Load(path);
 	objectTexture.insert({ _objType, pTex });
 
-	cout << "성공";
+	cout << "OBJ_TYPE Load : " << (int)_objType << " 성공" << endl;
 }
 
 Texture* ResourceManager::TextureLoad(const wstring& _key, const wstring& _path)

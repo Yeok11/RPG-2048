@@ -161,6 +161,9 @@
     <ClInclude Include="Collider.h">
       <Filter>Engine\06. Component\Collider</Filter>
     </ClInclude>
+    <ClInclude Include="Board.h">
+      <Filter>Engine\03. Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2024_winapigamep_framework_22.rc">
@@ -257,6 +260,9 @@
     </ClCompile>
     <ClCompile Include="Collider.cpp">
       <Filter>Engine\06. Component\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Board.cpp">
+      <Filter>Engine\03. Object</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

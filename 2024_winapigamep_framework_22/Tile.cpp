@@ -12,7 +12,12 @@ Tile::Tile(int _value, CALCULATE _cal, OBJ_TYPE _type, bool _show)
 	cal = _cal;
 	type = _type;
 
-	if (_show) Init();
+	SetSize({ 100, 100 });
+
+	if (_show) 
+	{
+		Init();
+	}
 }
 
 Tile::Tile()
@@ -62,10 +67,16 @@ void Tile::Init()
 	GetComponent<Image>()->TileLoadSetting(type, 3, 3);
 	GetComponent<Text>()->SetFont(L"PFStardust.ttf", L"PF Stardust", 0, 0);
 
+	ComponentInit(GetSize(), GetPos());
+
 	if (type != OBJ_TYPE::EMPTY) {
 		std::string number = ShowValue();
 		GetComponent<Text>()->SetText(wstring().assign(number.begin(), number.end()));
 	}
+}
+
+void Tile::Move()
+{
 }
 
 void Tile::Update()

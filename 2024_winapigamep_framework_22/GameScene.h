@@ -1,16 +1,18 @@
 #pragma once 
-#include "Tile.h"
 #include "Scene.h"
+#include "Board.h"
 
 class GameScene : public Scene
 {
 private:
-    Tile * backBoard[5][5]; // 현재 보드
-    Tile * board[5][5]; // 현재 보드
-    vector<Tile> nextTiles; // 나올 타일들
+    Board * backBoard; // 현재 배경 보드
+    Board * board; // 현재 보드
+    vector<Tile*> nextTiles; // 나올 타일들
+
+    GAME_STATE gameState;
 
     Tile* mainTile;
-    int targetNum = 0;
+    int targetNum = 1;
 
 public:
     // Scene을(를) 통해 상속됨
@@ -18,9 +20,12 @@ public:
     virtual void Update() override;
     ~GameScene() override;
 
-    void Move(char _dir);
-    void FindTarget();
-    void ChooseNextNums();
-    void AddTile(Tile tile, Vec2 pos, Vec2 size, int i, int j);
     bool CheckTarget();
+    void Move(Vec2 _dir);
+
+private:
+    void StageInit();
+    void FindTarget();
+    void AddTile();
+    void AddTileRandom();
 };

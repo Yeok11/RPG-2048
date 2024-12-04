@@ -1,51 +1,80 @@
 #include "pch.h"
 #include "Core.h"
 #include "InputManager.h"
-#include "GameScene.h"
 #include "ResourceManager.h"
 #include "Lerp.h"
 #include "TimeManager.h"
+#include "GameScene.h"
 
 void Find(const vector<Tile> _tiles, int _cnt, int _findCnt, int _curValue, std::set<int>& _result);
+GameScene::~GameScene()
+{
+	while (!nextTiles.empty())
+	{
+		Tile * tile = nextTiles[0];
+		nextTiles.erase(nextTiles.begin());
+		delete(tile);
+	}
+
+	delete(board);
+	delete(backBoard);
+}
 
 void GameScene::Init()
 {
-	#pragma region Tile Init
+	gameState = GAME_STATE::INIT;
+
+	#pragma region Tile Render
 	GET_SINGLE(ResourceManager)->TileInit(L"Button_empty.bmp", OBJ_TYPE::EMPTY);
 	GET_SINGLE(ResourceManager)->TileInit(L"Button.bmp", OBJ_TYPE::MAIN);;
 	GET_SINGLE(ResourceManager)->TileInit(L"Button_Normal.bmp", OBJ_TYPE::NORMAL);
 	GET_SINGLE(ResourceManager)->TileInit(L"Button_Stone.bmp", OBJ_TYPE::STONE);
+	#pragma endregion
+
+	board = new Board();
+	backBoard = new Board();
+
 	for (int i = 0; i < 5; i++)
 		for (int j = 0; j < 5; j++)
 		{
-			backBoard[i][j] = new Tile(0, CALC::PLUS, OBJ_TYPE::EMPTY);
-			backBoard[i][j]->SetSize({100, 100});
-			backBoard[i][j]->SetPos({(SCREEN_WIDTH / 2) + (j - 2) * 100, (SCREEN_HEIGHT / 2) + (i - 2) * 100});
-			AddObject(backBoard[i][j], LAYER::EMPTY_TILE);
-			backBoard[i][j]->ComponentInit(backBoard[i][j]->GetSize(), backBoard[i][j]->GetPos());
+			backBoard->data[i][j] = new Tile(0, CALC::PLUS, OBJ_TYPE::EMPTY);
+			backBoard->data[i][j]->SetPos({(SCREEN_WIDTH / 2) + (j - 2) * 100, (SCREEN_HEIGHT / 2) + (i - 2) * 100});
+			AddObject(backBoard->data[i][j], LAYER::EMPTY_TILE);
 		}
 	
 	for (int i = 0; i < 5; i++)
 		for (int j = 0; j < 5; j++)
 		{
-			board[i][j] = new Tile();
-			AddObject(board[i][j], LAYER::OBJECT_TILE);
+			board->data[i][j] = new Tile();
+			AddObject(board->data[i][j], LAYER::OBJECT_TILE);
 		}
 
+	mainTile = new Tile(1, CALC::PLUS, OBJ_TYPE::MAIN);
+	board->AddToBoard(mainTile, { 2,2 },
+		backBoard->data[2][2]->GetPos());
 	
-
-	//FindTarget();
+	gameState = GAME_STATE::PLAY;
 }
 
 void GameScene::Update()
 {
-	if (GET_KEYDOWN(KEY_TYPE::W)) Move('W');
-	else if (GET_KEYDOWN(KEY_TYPE::A)) Move('A');
-	else if (GET_KEYDOWN(KEY_TYPE::S)) Move('S');
-	else if (GET_KEYDOWN(KEY_TYPE::D)) Move('D');
-	else if (GET_KEYDOWN(KEY_TYPE::E)) AddTile(Tile(10, CALCULATE::PLUS, OBJ_TYPE::STONE), {SCREEN_WIDTH / 2 , SCREEN_HEIGHT / 2}, {100, 100}, 2, 2);
+	if (CheckTarget())
+	{
+		gameState = GAME_STATE::INIT;
+		StageInit();
+		return;
+	}
 
-
+	if (gameState == GAME_STATE::PLAY)
+	{
+		if (GET_KEYDOWN(KEY_TYPE::W)) Move({0, -1});
+		else if (GET_KEYDOWN(KEY_TYPE::A)) Move({-1, 0});
+		else if (GET_KEYDOWN(KEY_TYPE::S)) Move({0, 1});
+		else if (GET_KEYDOWN(KEY_TYPE::D)) Move({1, 0});
+		else if (GET_KEYDOWN(KEY_TYPE::E)) 
+			AddTileRandom();
+	}
+	
 	//Debuging
 	if (GET_KEYDOWN(KEY_TYPE::N))
 	{
@@ -54,91 +83,60 @@ void GameScene::Update()
 		{
 			for (int j = 0; j < 5; j++)
 			{
-				cout << board[i][j]->ShowValue() << " ";
+				cout << board->data[i][j]->ShowValue() << " ";
 			}
 			cout << endl;
 		}
 	}
+	if (GET_KEYDOWN(KEY_TYPE::NUM_1))
+		cout << "GameState : " << (int)gameState << endl;
 
-	if (GET_KEYDOWN(KEY_TYPE::M))
+	if (GET_KEYDOWN(KEY_TYPE::NUM_2))
 	{
-		cout << board[2][2]->GetPos().x << board[2][2]->GetPos().y << endl;
-	}
-	//Scene::Update();
-}
-
-GameScene::~GameScene()
-{
-
-}
-
-void GameScene::Move(char _dir)
-{	
-	vector<Tile*> fieldTile;
-
-	if (_dir == 'W' || _dir == 'S')
-	{
-		for (int j = 0; j < 5; j++)
+		for (int i = 0; i < nextTiles.size(); i++)
 		{
-			fieldTile = vector<Tile*>();
-			for (int i = 0; i < 5; i++)//Ÿ�ϵ� ����
-			{
-				if (board[i][j]->type != OBJ_TYPE::NONE) 
-				{
-					fieldTile.push_back(board[i][j]);
-					board[i][j] = new Tile();
-				}
-			}
-
-			for (int i = 0; i < fieldTile.size(); i++)
-			{
-				if (_dir == 'W') 
-				{
-					board[i][j] = fieldTile[i];
-					cout << fieldTile[i]->GetPos().x << "," << fieldTile[i]->GetPos().y << endl;
-					cout << backBoard[i][j]->GetPos().x << "," << backBoard[i][j]->GetPos().y << endl;
-					DOLerp(fieldTile[i]->GetPos(), backBoard[i][j]->GetPos());
-					//fieldTile[i]->SetPos(backBoard[i][j]->GetPos());
-				}
-				else if (_dir == 'S')
-				{
-					board[4 - i][j] = fieldTile[fieldTile.size() - i - 1];
-					DOLerp(fieldTile[fieldTile.size() - i - 1]->GetPos(), backBoard[4 - i][j]->GetPos());
-					//fieldTile[fieldTile.size() - i - 1]->SetPos(backBoard[4 - i][j]->GetPos());
-				}
-			}	
+			cout << nextTiles[i]->ShowValue() << endl;
 		}
 	}
-	else
+
+	if (gameState == GAME_STATE::MOVE)
+	{
+		//전체 두트윈
+		for (int i = 0; i < 5; i++)
+		{
+			for (int j = 0; j < 5; j++)
+			{
+				//if leo can't make Move
+				//board->data[j][i]->Move();
+			}
+		}
+	}
+
+	Scene::Update();
+}
+
+void GameScene::Move(Vec2 _dir)
+{	
+	//gameState = GAME_STATE::MOVE;
+
+	if (_dir.x + _dir.y < 0)
+	{
+		for (int i = 0; i < 5; i++)
+			for (int j = 0; j < 5; j++)
+				board->Move({ j, i }, _dir);
+	}
+	else if (_dir.x + _dir.y > 0)
+	{
+		for (int i = 4; i >= 0; i--)
+			for (int j = 4; j >= 0; j--)
+				board->Move({ j, i }, _dir);
+	}
+
+	for (int i = 0; i < 5; i++)
 	{
 		for (int j = 0; j < 5; j++)
 		{
-			fieldTile = vector<Tile*>();
-			for (int i = 0; i < 5; i++)//Ÿ�ϵ� ����
-			{
-				if (board[j][i]->type != OBJ_TYPE::NONE)
-				{
-					fieldTile.push_back(board[j][i]);
-					board[j][i] = new Tile();
-				}
-			}
-
-			for (int i = 0; i < fieldTile.size(); i++)
-			{
-				if (_dir == 'A')
-				{
-					board[j][i] = fieldTile[i];
-					DOLerp(fieldTile[i]->GetPos(), backBoard[j][i]->GetPos());
-					//fieldTile[i]->SetPos(Lerp(, , fDT / 2));
-					//fieldTile[i]->SetPos(backBoard[j][i]->GetPos());
-				}
-				else if (_dir == 'D')
-				{
-					board[j][4 - i] = fieldTile[fieldTile.size() - i - 1];
-					DOLerp(fieldTile[fieldTile.size() - i - 1]->GetPos(), backBoard[j][4 - i]->GetPos());
-					//fieldTile[fieldTile.size() - i - 1]->SetPos(backBoard[j][4 - i]->GetPos());
-				}
-			}
+			board->data[i][j]->SetPos(backBoard->data[i][j]->GetPos());
 		}
 	}
 }
@@ -146,7 +144,7 @@ void GameScene::Move(char _dir)
 void GameScene::FindTarget()
 {
 	std::set<int> result;
-	vector<Tile> allTile = nextTiles;
+	//vector<Tile> allTile = nextTiles;
 
 	for (int i = 0; i < 5; i++)
 	{
@@ -160,24 +158,62 @@ void GameScene::FindTarget()
 	//Find(allTile, 0, 0, mainTile->value, result);
 }
 
-void GameScene::ChooseNextNums()
+void GameScene::AddTile()
 {
+	CALC cal = (CALC)(rand() % 4);
+	int value;
+	if (cal == CALC::MINUS || cal == CALC::PLUS)
+		value = rand() % 10 + 1;
+	else
+		value = rand() % 4 + 1;
+	
+	Tile* tile = new Tile(value, cal, OBJ_TYPE::NORMAL, false);
+	nextTiles.push_back(tile);
 }
 
-void GameScene::AddTile(Tile tile, Vec2 pos, Vec2 size, int i, int j)
+void GameScene::AddTileRandom()
 {
-	Tile* newTile = new Tile(tile.value, tile.cal, tile.type);
-	newTile->SetPos(pos);
-	newTile->SetSize(size);
-	AddObject(newTile, LAYER::OBJECT_TILE);
-	newTile->ComponentInit(size, pos);
-	board[i][j] = newTile;
+	vector<Vec2> arrP;
+	
+	for (int i = 0; i < 5; i++)
+	{
+		for (int j = 0; j < 5; j++)
+		{
+			if (board->data[j][i]->type == OBJ_TYPE::NONE)
+				arrP.push_back({j, i});
+		}
+	}
+
+	if (arrP.empty())
+	{
+		cout << "더 이상 넣을 데가 없어~" << endl;
+		return;
+	}
+
+	Vec2 vec = arrP[rand() % arrP.size()];
+	board->AddToBoard(nextTiles[0], vec, 
+		backBoard->data[(int)vec.y][(int)vec.x]
+		->GetPos());
+	nextTiles.erase(nextTiles.begin(), nextTiles.begin()+1);
 }
 
-bool GameScene::CheckTarget()
+bool GameScene::CheckTarget() { return mainTile->value == targetNum; }
+
+void GameScene::StageInit()
 {
-	return mainTile->value == targetNum;
+	cout << endl << "~~~~~~~~~~" << endl;
+	cout << "STAGE Init" << endl;
+	cout << "~~~~~~~~~~" << endl << endl;
+
+	for (int i = 0; i < 10; i++)
+	{
+		AddTile();
+	}
+
+	gameState = GAME_STATE::PLAY;
+	targetNum = 15;
 }
+
 
 
 
