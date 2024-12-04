@@ -65,16 +65,6 @@ void GameScene::Update()
 		return;
 	}
 
-	if (gameState == GAME_STATE::PLAY)
-	{
-		if (GET_KEYDOWN(KEY_TYPE::W)) Move({0, -1});
-		else if (GET_KEYDOWN(KEY_TYPE::A)) Move({-1, 0});
-		else if (GET_KEYDOWN(KEY_TYPE::S)) Move({0, 1});
-		else if (GET_KEYDOWN(KEY_TYPE::D)) Move({1, 0});
-		else if (GET_KEYDOWN(KEY_TYPE::E)) 
-			AddTileRandom();
-	}
-	
 	//Debuging
 	if (GET_KEYDOWN(KEY_TYPE::N))
 	{
@@ -99,16 +89,40 @@ void GameScene::Update()
 		}
 	}
 
-	if (gameState == GAME_STATE::MOVE)
+	if (gameState == GAME_STATE::PLAY)
 	{
-		//전체 두트윈
-		for (int i = 0; i < 5; i++)
+		if (GET_KEYDOWN(KEY_TYPE::W)) Move({ 0, -1 });
+		else if (GET_KEYDOWN(KEY_TYPE::A)) Move({ -1, 0 });
+		else if (GET_KEYDOWN(KEY_TYPE::S)) Move({ 0, 1 });
+		else if (GET_KEYDOWN(KEY_TYPE::D)) Move({ 1, 0 });
+		else if (GET_KEYDOWN(KEY_TYPE::E)) AddTileRandom();
+	}
+
+	else if (gameState == GAME_STATE::MOVE)
+	{
+		if (timeCnt > 0)
 		{
-			for (int j = 0; j < 5; j++)
+			if (timeCnt > gameTime)
 			{
-				//if leo can't make Move
-				//board->data[j][i]->Move();
+				cout << timeCnt << endl;
+				timeCnt -= 0.01f;
+
+				for (int x = 0; x < 5; x++)
+				{
+					for (int j = 0; j < 5; j++)
+					{
+						//if leo can't make Move
+						board->data[x][j]->Move();
+					}
+				}
 			}
+
+			gameTime -= fDT;
+		}
+		else
+		{
+			//all dotTween fin
+			gameState = GAME_STATE::PLAY;
 		}
 	}
 
@@ -117,7 +131,8 @@ void GameScene::Update()
 
 void GameScene::Move(Vec2 _dir)
 {	
-	//gameState = GAME_STATE::MOVE;
+	gameState = GAME_STATE::MOVE;
+	mainTile->merge = true;
 
 	if (_dir.x + _dir.y < 0)
 	{
@@ -132,11 +147,16 @@ void GameScene::Move(Vec2 _dir)
 				board->Move({ j, i }, _dir);
 	}
 
+	gameTime = 1;
+	timeCnt = 10;
+
 	for (int i = 0; i < 5; i++)
 	{
 		for (int j = 0; j < 5; j++)
 		{
-			board->data[i][j]->SetPos(backBoard->data[i][j]->GetPos());
+			board->data[i][j]->moveValue = 
+				Lerp(board->data[i][j]->GetPos(), 
+				backBoard->data[i][j]->GetPos(), gameTime / timeCnt);
 		}
 	}
 }
@@ -179,7 +199,7 @@ void GameScene::AddTileRandom()
 	{
 		for (int j = 0; j < 5; j++)
 		{
-			if (board->data[j][i]->type == OBJ_TYPE::NONE)
+			if (board->data[i][j]->type == OBJ_TYPE::NONE)
 				arrP.push_back({j, i});
 		}
 	}

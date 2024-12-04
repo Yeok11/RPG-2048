@@ -14,7 +14,7 @@ public:
     void Render(HDC _hdc) override;
     void SetFont(wstring fileName, wstring _fontName, int width, int height);
     void SetText(wstring _str);
-    void SetText(int _str);
+    void SetText(std::string _str);
     void ReleaseFont();
 private:
     HFONT m_font;

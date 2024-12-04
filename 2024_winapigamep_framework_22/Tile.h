@@ -9,9 +9,12 @@ public:
 	Tile(int _value, CALCULATE _cal, OBJ_TYPE _type, bool _show = true);
 	~Tile();
 
+	Vec2 moveValue;
+
 	int value;
 	OBJ_TYPE type;
 	CALCULATE cal;
+	bool merge = true;
 private:
 
 public:

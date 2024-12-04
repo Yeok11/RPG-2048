@@ -2,6 +2,7 @@
 #include "Board.h"
 #include "SceneManager.h"
 #include "EventManager.h"
+#include "Text.h"
 #include "GameScene.h"
 
 void Board::Move(Vec2 _lastPos, Vec2 _dir)
@@ -18,12 +19,25 @@ void Board::Move(Vec2 _lastPos, Vec2 _dir)
 	cout << "is Not None" << endl;
 
 
-	if (data[moveY][moveX]->type == OBJ_TYPE::MAIN)
+	#pragma region Move
+	if (data[moveY][moveX]->type == OBJ_TYPE::MAIN && data[moveY][moveX]->merge)
 	{
-		data[moveY][moveX]->Calculate(data[posY][posX]);
+		Tile* main = data[moveY][moveX];
+
+		cout << "merge Main : " << moveX << " / " << moveY << endl;
+		main->Calculate(data[posY][posX]);
+
+		//delete
 		GET_SINGLE(EventManager)->DeleteObject(data[posY][posX]);
 		data[posY][posX] = new Tile();
+
+		main->merge = false;
+		if (main->value < 0) main->cal = CALC::MINUS;
+		else main->cal = CALC::PLUS;
+
+		main->GetComponent<Text>()->SetText(main->ShowValue());
 	}
+
 	else if (data[moveY][moveX]->type == OBJ_TYPE::NONE)
 	{
 		cout << posX << " / " << posY << " -> " << moveX << " / " << moveY << "  move" << endl;
@@ -34,6 +48,28 @@ void Board::Move(Vec2 _lastPos, Vec2 _dir)
 
 		Move({ moveX, moveY }, _dir);
 	}
+
+	else if (data[posY][posX]->type == OBJ_TYPE::MAIN && data[posY][posX]->merge)
+	{
+		cout << moveX << " / " << moveY << "  : main" << endl;
+
+		Tile* before = data[moveY][moveX];
+		data[posY][posX]->Calculate(before);
+
+		data[moveY][moveX] = data[posY][posX];
+		data[posY][posX] = new Tile();
+		
+		GET_SINGLE(SceneManager)->GetCurrentScene()
+			->AddObject(data[posY][posX], LAYER::OBJECT_TILE);
+
+		Tile* main = data[moveY][moveX];
+		main->merge = false;
+		main->cal = main->value < 0 ? CALC::MINUS : CALC::PLUS;
+		main->GetComponent<Text>()->SetText(main->ShowValue());
+
+		GET_SINGLE(EventManager)->DeleteObject(before);
+	}
+#pragma endregion
 }
 
 void Board::AddToBoard(Tile* _tile, Vec2 _arrPos, Vec2 _tilePos)

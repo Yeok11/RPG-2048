@@ -16,8 +16,8 @@ T Lerp(const T& start, const T& end, float t)
 Vec2 Lerp(const Vec2& start, const Vec2& end, float t) {
     t = std::clamp(t, 0.0f, 1.0f);
     return Vec2(
-        start.x + (end.x - start.x) * t,
-        start.y + (end.y - start.y) * t
+        (end.x - start.x) * t,
+        (end.y - start.y) * t
     );
 }
 

@@ -13,6 +13,8 @@ private:
 
     Tile* mainTile;
     int targetNum = 1;
+    float gameTime;
+    int timeCnt = 0;
 
 public:
     // Scene을(를) 통해 상속됨

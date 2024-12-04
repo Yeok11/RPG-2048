@@ -54,7 +54,7 @@ std::string Tile::ShowValue()
 		break;
 	}
 
-	mes += std::to_string(value);
+	mes += std::to_string(abs(value));
 
 	return mes;
 }
@@ -77,6 +77,8 @@ void Tile::Init()
 
 void Tile::Move()
 {
+	Vec2 pos = GetPos();
+	SetPos({ pos.x + moveValue.x, pos.y + moveValue.y });
 }
 
 void Tile::Update()
