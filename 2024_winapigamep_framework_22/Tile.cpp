@@ -54,7 +54,7 @@ std::string Tile::ShowValue()
 		break;
 	}
 
-	mes += std::to_string(value);
+	mes += std::to_string(abs(value));
 
 	return mes;
 }

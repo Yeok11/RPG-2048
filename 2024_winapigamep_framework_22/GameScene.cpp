@@ -117,6 +117,7 @@ void GameScene::Update()
 
 void GameScene::Move(Vec2 _dir)
 {	
+	mainTile->merge = true;
 	//gameState = GAME_STATE::MOVE;
 
 	if (_dir.x + _dir.y < 0)
@@ -179,7 +180,7 @@ void GameScene::AddTileRandom()
 	{
 		for (int j = 0; j < 5; j++)
 		{
-			if (board->data[j][i]->type == OBJ_TYPE::NONE)
+			if (board->data[i][j]->type == OBJ_TYPE::NONE)
 				arrP.push_back({j, i});
 		}
 	}

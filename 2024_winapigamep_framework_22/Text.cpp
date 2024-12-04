@@ -36,6 +36,11 @@ void Text::SetText(wstring _str)
 	m_text = _str;
 }
 
+void Text::SetText(std::string _str)
+{
+	m_text = wstring().assign(_str.begin(), _str.end());
+}
+
 void Text::ReleaseFont()
 {
 	DeleteObject(m_font);
