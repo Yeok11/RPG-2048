@@ -9,12 +9,13 @@ public:
 	Image();
 	~Image() override;
 public:
-	void LoadAndSetting(const wstring& _key, const wstring& _path, int multipleWidth, int multipleHeight);
-	void TileLoadSetting(const OBJ_TYPE _type, int multipleWidth, int multipleHeight);
+	void LoadAndSetting(const wstring& _key, const wstring& _path, float multipleWidth, float multipleHeight);
+	void TileLoadSetting(const OBJ_TYPE _type, float multipleWidth, float multipleHeight);
+	void SetMultiple(float widthMultiple, float heightMultiple);
 	void LateUpdate() override;
 	void Render(HDC _hdc) override;
 private:
 	Texture* m_pTex;
-	int m_multipleWidth;
-	int m_multipleHeight;
+	float m_multipleWidth;
+	float m_multipleHeight;
 };

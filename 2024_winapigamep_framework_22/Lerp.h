@@ -3,6 +3,8 @@
 #include "pch.h"
 #include "TimeManager.h"
 #include "Core.h"
+#include "SceneManager.h"
+#include "Scene.h"
 
 template <typename T>
 T Lerp(const T& start, const T& end, float t)
@@ -23,7 +25,7 @@ bool IsEnd(Vec2 start, Vec2 end) {
     return start == end;
 }
 
-void DOLerp(Vec2& start, const Vec2& end) {
+void DOLerp(Vec2& start, const Vec2& end, Object* obj) {
 
     float elapsedTime = 0.0f;
 
@@ -32,10 +34,17 @@ void DOLerp(Vec2& start, const Vec2& end) {
         t = std::clamp(t, 0.0f, 1.0f);
         start = Lerp(start, end, t);
 
-        GET_SINGLE(Core)->CoreRender();
-        GET_SINGLE(Core)->CoreUpdate();
+        // GET_SINGLE(Core)->CoreRender();
+        // HDC backDC = GET_SINGLE(Core)->GetBackDC();
+        // HDC mainDC = GET_SINGLE(Core)->GetMainDC();
+        // GET_SINGLE(SceneManager)->Render(mainDC);
+        // obj->Update();
+        // obj->Render(mainDC);
+        // GET_SINGLE(SceneManager)->GetCurrentScene()->Update();
+        // GET_SINGLE(SceneManager)->GetCurrentScene()->Render(mainDC);
 
         elapsedTime += fDT;
+        cout << t << endl;
     }
 
     start = end;
