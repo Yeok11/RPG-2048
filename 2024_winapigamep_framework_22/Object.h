@@ -60,6 +60,14 @@ public:
 		}
 		return component;
 	}
+	template <typename T>
+	const bool TryGetComponent() const {
+		if (GetComponent<T>() == nullptr) {
+			cout << typeid(T).name() << " is null" << endl;
+			return false;
+		}
+		return true;
+	}
 private:
 	//POINT m_ptPos;
 	//POINT m_ptSize;

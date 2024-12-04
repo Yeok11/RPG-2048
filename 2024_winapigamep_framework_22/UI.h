@@ -1,6 +1,7 @@
 #pragma once
 #include <functional>
 #include "MouseDetectObject.h"
+#include "ResourceManager.h"
 
 class UI :
     public MouseDetectObject
@@ -22,6 +23,13 @@ public:
     // Text
     void SetFont(wstring fileName, wstring _fontName, int width, int height);
     void SetText(wstring _str);
+
+    // Audio
+    void LoadSound(const wstring& _key, const wstring& _path, bool _isLoop);
+    void Play(const wstring& _key);
+    void Stop(SOUND_CHANNEL _channel);
+    void SetVolume(SOUND_CHANNEL _channel, float _vol);
+    void Pause(SOUND_CHANNEL _channel, bool _ispause);
 private:
     void Init(bool isImage, bool isText, bool isButton);
     bool m_isImage;

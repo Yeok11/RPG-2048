@@ -3,12 +3,14 @@
 #include "Image.h"
 #include "Text.h"
 #include "UI.h"
+#include "AudioSource.h"
 
 UI::UI()
-	:m_isImage(false),
+	:m_isImage(true),
 	m_isButton(false),
 	m_isText(false)
 {
+	AddComponent<Image>();
 }
 
 UI::UI(bool isImage, bool isText, bool isButton)
@@ -77,6 +79,37 @@ void UI::SetText(wstring _str)
 	GetComponent<Text>()->SetText(_str);
 }
 
+void UI::LoadSound(const wstring& _key, const wstring& _path, bool _isLoop)
+{
+	if (!TryGetComponent<AudioSource>()) return;
+	GetComponent<AudioSource>()->LoadSound(_key, _path, _isLoop);
+}
+
+
+void UI::Play(const wstring& _key)
+{
+	if (!TryGetComponent<AudioSource>()) return;
+	GetComponent<AudioSource>()->Play(_key);
+}
+
+void UI::Stop(SOUND_CHANNEL _channel)
+{
+	if (!TryGetComponent<AudioSource>()) return;
+	GetComponent<AudioSource>()->Stop(_channel);
+}
+
+void UI::SetVolume(SOUND_CHANNEL _channel, float _vol)
+{
+	if (!TryGetComponent<AudioSource>()) return;
+	GetComponent<AudioSource>()->SetVolume(_channel, _vol);
+}
+
+void UI::Pause(SOUND_CHANNEL _channel, bool _ispause)
+{
+	if (!TryGetComponent<AudioSource>()) return;
+	GetComponent<AudioSource>()->Pause(_channel, _ispause);
+}
+
 void UI::Init(bool isImage, bool isText, bool isButton)
 {
 	if (isImage) {
@@ -88,6 +121,8 @@ void UI::Init(bool isImage, bool isText, bool isButton)
 	if (isButton) {
 		AddComponent<Button>();
 	}
+
+	//AddComponent<AudioSource>();
 
 	m_isImage = isImage;
 	m_isButton = isButton;

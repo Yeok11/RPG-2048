@@ -11,6 +11,8 @@ MouseDetectObject::MouseDetectObject()
 
 MouseDetectObject::~MouseDetectObject()
 {
+	MouseEnter.Clear();
+	MouseExit.Clear();
 }
 
 void MouseDetectObject::Update()

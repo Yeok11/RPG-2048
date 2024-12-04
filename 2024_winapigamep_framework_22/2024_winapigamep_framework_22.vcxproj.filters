@@ -35,6 +35,18 @@
     <Filter Include="Engine\07. Module">
       <UniqueIdentifier>{ec499769-3097-4d06-8abb-b25ff4a1a933}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\06. Component\Animation">
+      <UniqueIdentifier>{90b89687-b430-4c83-a4fc-c342f4c2ba50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\06. Component\UI">
+      <UniqueIdentifier>{6d55a26d-a48f-4dc8-8148-9f550b7ea529}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\06. Component\Audio">
+      <UniqueIdentifier>{001a56a0-e66d-46aa-88fd-2a39b9ed13f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\06. Component\Collider">
+      <UniqueIdentifier>{b0cd6ab1-a6fd-4b91-b5e1-bb73640c075e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2024_winapigamep_framework_22.h">
@@ -100,9 +112,6 @@
     <ClInclude Include="Component.h">
       <Filter>Engine\06. Component</Filter>
     </ClInclude>
-    <ClInclude Include="Collider.h">
-      <Filter>Engine\06. Component</Filter>
-    </ClInclude>
     <ClInclude Include="GDISelector.h">
       <Filter>Engine\07. Module</Filter>
     </ClInclude>
@@ -112,12 +121,6 @@
     <ClInclude Include="EventManager.h">
       <Filter>Engine\02. Manager</Filter>
     </ClInclude>
-    <ClInclude Include="Animator.h">
-      <Filter>Engine\06. Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Animation.h">
-      <Filter>Engine\06. Component</Filter>
-    </ClInclude>
     <ClInclude Include="Tile.h">
       <Filter>Engine\03. Object</Filter>
     </ClInclude>
@@ -125,20 +128,8 @@
     <ClInclude Include="Action.h">
       <Filter>Engine\99. Header</Filter>
     </ClInclude>
-    <ClInclude Include="Button.h">
-      <Filter>Engine\06. Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Image.h">
-      <Filter>Engine\06. Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Text.h">
-      <Filter>Engine\06. Component</Filter>
-    </ClInclude>
     <ClInclude Include="Structs.h">
       <Filter>Engine\99. Header</Filter>
-    </ClInclude>
-    <ClInclude Include="AudioSource.h">
-      <Filter>Engine\06. Component</Filter>
     </ClInclude>
     <ClInclude Include="Lerp.h">
       <Filter>Engine\99. Header</Filter>
@@ -148,6 +139,27 @@
     </ClInclude>
     <ClInclude Include="MouseDetectObject.h">
       <Filter>Engine\03. Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Engine\06. Component\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Animator.h">
+      <Filter>Engine\06. Component\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>Engine\06. Component\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Image.h">
+      <Filter>Engine\06. Component\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Engine\06. Component\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioSource.h">
+      <Filter>Engine\06. Component\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>Engine\06. Component\Collider</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -206,9 +218,6 @@
     <ClCompile Include="Component.cpp">
       <Filter>Engine\06. Component</Filter>
     </ClCompile>
-    <ClCompile Include="Collider.cpp">
-      <Filter>Engine\06. Component</Filter>
-    </ClCompile>
     <ClCompile Include="GDISelector.cpp">
       <Filter>Engine\07. Module</Filter>
     </ClCompile>
@@ -218,36 +227,36 @@
     <ClCompile Include="EventManager.cpp">
       <Filter>Engine\02. Manager</Filter>
     </ClCompile>
-    <ClCompile Include="Animator.cpp">
-      <Filter>Engine\06. Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Animation.cpp">
-      <Filter>Engine\06. Component</Filter>
-    </ClCompile>
     <ClCompile Include="Tile.cpp">
       <Filter>Engine\03. Object</Filter>
     </ClCompile>
     <ClCompile Include="Test.cpp" />
-    <ClCompile Include="Button.cpp">
-      <Filter>Engine\06. Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Image.cpp">
-      <Filter>Engine\06. Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Text.cpp">
-      <Filter>Engine\06. Component</Filter>
-    </ClCompile>
-    <ClCompile Include="AudioSource.cpp">
-      <Filter>Engine\06. Component</Filter>
-    </ClCompile>
     <ClCompile Include="UI.cpp">
       <Filter>Engine\03. Object</Filter>
     </ClCompile>
     <ClCompile Include="MouseDetectObject.cpp">
       <Filter>Engine\03. Object</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
+    <ClCompile Include="Animation.cpp">
+      <Filter>Engine\06. Component\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Animator.cpp">
+      <Filter>Engine\06. Component\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Image.cpp">
+      <Filter>Engine\06. Component\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>Engine\06. Component\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Engine\06. Component\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioSource.cpp">
+      <Filter>Engine\06. Component\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>Engine\06. Component\Collider</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

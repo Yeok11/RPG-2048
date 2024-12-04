@@ -5,6 +5,16 @@
 
 void TitleScene::Init()
 {
+
+#pragma region Background                         
+	/*UI* bg = new UI();
+	bg->SetPos({ 0, 0 });
+	bg->SetSize({ SCREEN_WIDTH, SCREEN_HEIGHT });
+	bg->LoadAndSetting(L"BG", L"Texture\\BG.bmp", 11, 11);
+	bg->ComponentInit(bg->GetSize(), bg->GetPos());
+	AddObject(bg, LAYER::BACKGROUND);*/
+#pragma endregion
+
 #pragma region Btn
 	UI* startBtn = new UI(true, true, true);
 	startBtn->SetPos({ 585, 400 });
@@ -14,6 +24,7 @@ void TitleScene::Init()
 	startBtn->SetText(L"½ÃÀÛ");
 	startBtn->ComponentInit(startBtn->GetSize(), startBtn->GetPos());
 	startBtn->AddListener([]() { GET_SINGLE(SceneManager)->LoadScene(L"GameScene"); });
+	startBtn->Play(L"aaa");
 	AddObject(startBtn, LAYER::UI);
 
 	UI* exitBtn = new UI(true, true, true);
