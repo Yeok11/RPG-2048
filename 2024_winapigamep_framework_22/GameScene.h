@@ -8,7 +8,6 @@ private:
     Board * backBoard; // 현재 배경 보드
     Board * board; // 현재 보드
     vector<Tile*> nextTiles; // 나올 타일들
-
     GAME_STATE gameState;
 
     Tile* mainTile;

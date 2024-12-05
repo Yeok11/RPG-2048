@@ -63,7 +63,6 @@ public:
 	template <typename T>
 	const bool TryGetComponent() const {
 		if (GetComponent<T>() == nullptr) {
-			cout << typeid(T).name() << " is null" << endl;
 			return false;
 		}
 		return true;

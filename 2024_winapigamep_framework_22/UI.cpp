@@ -116,7 +116,7 @@ void UI::Init(bool isImage, bool isText, bool isButton, bool isAudio)
 	MouseEnter += [&]() 
 		{
 			ComponentInit(GetSize() + Vec2(1.2f, 1.2f), GetPos()); 
-			if (TryGetComponent<Image>) {
+			if (TryGetComponent<Image>()) {
 				GetComponent<Image>()->SetMultiple(2.1f, 2.1f);
 				SetPos(GetPos() - Vec2(0.1f, 0.1f));
 			}

@@ -5,6 +5,11 @@
 #include "Text.h"
 #include "GameScene.h"
 
+Board::~Board()
+{
+	
+}
+
 void Board::Move(Vec2 _lastPos, Vec2 _dir)
 {
 	int posX = _lastPos.x, posY = _lastPos.y;
@@ -85,4 +90,16 @@ void Board::AddToBoard(Tile* _tile, Vec2 _arrPos, Vec2 _tilePos)
 	
 	GET_SINGLE(SceneManager)->GetCurrentScene()
 		->AddObject(_tile, LAYER::OBJECT_TILE);
+}
+
+void Board::AddToBoardNoAddObject(Tile* _tile, Vec2 _arrPos, Vec2 _tilePos)
+{
+	int x = _arrPos.x, y = _arrPos.y;
+
+	_tile->SetPos(_tilePos);
+	_tile->Init();
+
+	GET_SINGLE(EventManager)->DeleteObject(data[y][x]);
+
+	data[y][x] = _tile;
 }
