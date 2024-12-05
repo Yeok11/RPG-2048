@@ -10,13 +10,13 @@ void Board::Move(Vec2 _lastPos, Vec2 _dir)
 	int posX = _lastPos.x, posY = _lastPos.y;
 	int moveX = posX + _dir.x, moveY = posY + _dir.y;
 
-	cout << posX << " / " << posY << " Check" << endl;
+	//cout << posX << " / " << posY << " Check" << endl;
 
 	if (moveX >= 5 || moveY >= 5) return;
 	if (moveX < 0 || moveY < 0) return;
 
 	if (data[posY][posX]->type == OBJ_TYPE::NONE) return;
-	cout << "is Not None" << endl;
+	//cout << "is Not None" << endl;
 
 
 	#pragma region Move
@@ -35,12 +35,14 @@ void Board::Move(Vec2 _lastPos, Vec2 _dir)
 		if (main->value < 0) main->cal = CALC::MINUS;
 		else main->cal = CALC::PLUS;
 
+
+		GET_SINGLE(SceneManager)->GetCurrentScene()->AddObject(data[posY][posX], LAYER::OBJECT_TILE);
 		main->GetComponent<Text>()->SetText(main->ShowValue());
 	}
 
 	else if (data[moveY][moveX]->type == OBJ_TYPE::NONE)
 	{
-		cout << posX << " / " << posY << " -> " << moveX << " / " << moveY << "  move" << endl;
+		//cout << posX << " / " << posY << " -> " << moveX << " / " << moveY << "  move" << endl;
 
 		Tile* temp = data[moveY][moveX];
 		data[moveY][moveX] = data[posY][posX];
@@ -51,7 +53,7 @@ void Board::Move(Vec2 _lastPos, Vec2 _dir)
 
 	else if (data[posY][posX]->type == OBJ_TYPE::MAIN && data[posY][posX]->merge)
 	{
-		cout << moveX << " / " << moveY << "  : main" << endl;
+		//cout << moveX << " / " << moveY << "  : main" << endl;
 
 		Tile* before = data[moveY][moveX];
 		data[posY][posX]->Calculate(before);

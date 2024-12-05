@@ -33,28 +33,28 @@ Tile::~Tile()
 
 
 
-std::string Tile::ShowValue()
+wstring Tile::ShowValue()
 {
-	if (this == nullptr) return " 0";
+	if (this == nullptr) return L" 0";
 
-	std::string mes;
+	wstring mes;
 	switch (cal)
 	{
 	case CALCULATE::PLUS:
-		mes = "+";
+		mes = L"+";
 		break;
 	case CALCULATE::MINUS:
-		mes = "-";
+		mes = L"-";
 		break;
 	case CALCULATE::MULTIPLY:
-		mes = "X";
+		mes = L"X";
 		break;
 	case CALCULATE::DIVIDE:
-		mes = "/";
+		mes = L"/";
 		break;
 	}
 
-	mes += std::to_string(abs(value));
+	mes += std::to_wstring(abs(value));
 
 	return mes;
 }
@@ -70,8 +70,8 @@ void Tile::Init()
 	ComponentInit(GetSize(), GetPos());
 
 	if (type != OBJ_TYPE::EMPTY) {
-		std::string number = ShowValue();
-		GetComponent<Text>()->SetText(wstring().assign(number.begin(), number.end()));
+		wstring number = ShowValue();
+		GetComponent<Text>()->SetText(number);
 	}
 }
 

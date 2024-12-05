@@ -7,7 +7,7 @@ enum class KEY_TYPE
 	Z, X, C, V, B, N, M,
 	CTRL, LALT, LSHIFT, SPACE,
 	ENTER, TAB, ESC, LBUTTON, RBUTTON,
-	NUM_1, NUM_2, LAST
+	NUM_1, NUM_2, NUM_3, LAST
 	// LAST의미: 끝이라는 뜻이야
 };
 enum class KEY_STATE
@@ -41,6 +41,6 @@ private:
 	'Z','X','C','V','B','N','M',
 	VK_CONTROL, VK_LMENU, VK_LSHIFT, VK_SPACE,
 		VK_RETURN, VK_TAB, VK_ESCAPE,
-		VK_LBUTTON, VK_RBUTTON,'1','2' };
+		VK_LBUTTON, VK_RBUTTON,'1','2', '3'};
 };
 

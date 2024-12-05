@@ -6,7 +6,6 @@
 #include "TimeManager.h"
 #include "GameScene.h"
 
-void Find(const vector<Tile> _tiles, int _cnt, int _findCnt, int _curValue, std::set<int>& _result);
 GameScene::~GameScene()
 {
 	while (!nextTiles.empty())
@@ -34,37 +33,29 @@ void GameScene::Init()
 	board = new Board();
 	backBoard = new Board();
 
+	#pragma region AllTile Init
 	for (int i = 0; i < 5; i++)
 		for (int j = 0; j < 5; j++)
 		{
 			backBoard->data[i][j] = new Tile(0, CALC::PLUS, OBJ_TYPE::EMPTY);
-			backBoard->data[i][j]->SetPos({(SCREEN_WIDTH / 2) + (j - 2) * 100, (SCREEN_HEIGHT / 2) + (i - 2) * 100});
+			backBoard->data[i][j]->SetPos({ (SCREEN_WIDTH / 2) + (j - 2) * 100, (SCREEN_HEIGHT / 2) + (i - 2) * 100 });
 			AddObject(backBoard->data[i][j], LAYER::EMPTY_TILE);
 		}
-	
+
 	for (int i = 0; i < 5; i++)
 		for (int j = 0; j < 5; j++)
 		{
 			board->data[i][j] = new Tile();
 			AddObject(board->data[i][j], LAYER::OBJECT_TILE);
 		}
+#pragma endregion
 
 	mainTile = new Tile(1, CALC::PLUS, OBJ_TYPE::MAIN);
-	board->AddToBoard(mainTile, { 2,2 },
-		backBoard->data[2][2]->GetPos());
-	
-	gameState = GAME_STATE::PLAY;
+	board->AddToBoard(mainTile, { 2,2 }, backBoard->data[2][2]->GetPos());
 }
 
 void GameScene::Update()
 {
-	if (CheckTarget())
-	{
-		gameState = GAME_STATE::INIT;
-		StageInit();
-		return;
-	}
-
 	//Debuging
 	if (GET_KEYDOWN(KEY_TYPE::N))
 	{
@@ -73,7 +64,7 @@ void GameScene::Update()
 		{
 			for (int j = 0; j < 5; j++)
 			{
-				cout << board->data[i][j]->ShowValue() << " ";
+				wcout << board->data[i][j]->ShowValue() << " ";
 			}
 			cout << endl;
 		}
@@ -82,48 +73,49 @@ void GameScene::Update()
 		cout << "GameState : " << (int)gameState << endl;
 
 	if (GET_KEYDOWN(KEY_TYPE::NUM_2))
-	{
 		for (int i = 0; i < nextTiles.size(); i++)
+			wcout << nextTiles[i]->ShowValue() << endl;
+
+	if (GET_KEYDOWN(KEY_TYPE::NUM_3)) FindTarget();
+
+	
+
+	if (gameState == GAME_STATE::MOVE)
+	{
+		if (timeCnt > 0)
 		{
-			cout << nextTiles[i]->ShowValue() << endl;
+			if (timeCnt > gameTime)//if leo can't make Move
+			{
+				timeCnt -= 0.01f;
+
+				for (int x = 0; x < 5; x++)
+					for (int j = 0; j < 5; j++)
+						board->data[x][j]->Move();
+			}
+			gameTime -= fDT;
+		}
+		else //all dotTween fin
+		{
+			AddTileRandom();
+			gameState = GAME_STATE::PLAY;
 		}
 	}
 
-	if (gameState == GAME_STATE::PLAY)
+	else if (CheckTarget() || gameState == GAME_STATE::INIT)
+	{
+		gameState = GAME_STATE::INIT;
+		StageInit();
+		FindTarget();
+		return;
+	}
+	
+	else if (gameState == GAME_STATE::PLAY)
 	{
 		if (GET_KEYDOWN(KEY_TYPE::W)) Move({ 0, -1 });
 		else if (GET_KEYDOWN(KEY_TYPE::A)) Move({ -1, 0 });
 		else if (GET_KEYDOWN(KEY_TYPE::S)) Move({ 0, 1 });
 		else if (GET_KEYDOWN(KEY_TYPE::D)) Move({ 1, 0 });
 		else if (GET_KEYDOWN(KEY_TYPE::E)) AddTileRandom();
-	}
-
-	else if (gameState == GAME_STATE::MOVE)
-	{
-		if (timeCnt > 0)
-		{
-			if (timeCnt > gameTime)
-			{
-				cout << timeCnt << endl;
-				timeCnt -= 0.01f;
-
-				for (int x = 0; x < 5; x++)
-				{
-					for (int j = 0; j < 5; j++)
-					{
-						//if leo can't make Move
-						board->data[x][j]->Move();
-					}
-				}
-			}
-
-			gameTime -= fDT;
-		}
-		else
-		{
-			//all dotTween fin
-			gameState = GAME_STATE::PLAY;
-		}
 	}
 
 	Scene::Update();
@@ -134,6 +126,7 @@ void GameScene::Move(Vec2 _dir)
 	gameState = GAME_STATE::MOVE;
 	mainTile->merge = true;
 
+	#pragma region Arr Move
 	if (_dir.x + _dir.y < 0)
 	{
 		for (int i = 0; i < 5; i++)
@@ -146,9 +139,10 @@ void GameScene::Move(Vec2 _dir)
 			for (int j = 4; j >= 0; j--)
 				board->Move({ j, i }, _dir);
 	}
+#pragma endregion
 
 	gameTime = 1;
-	timeCnt = 10;
+	timeCnt = 100;
 
 	for (int i = 0; i < 5; i++)
 	{
@@ -161,35 +155,37 @@ void GameScene::Move(Vec2 _dir)
 	}
 }
 
-void GameScene::FindTarget()
+void GameScene::AddTile()
 {
-	std::set<int> result;
-	//vector<Tile> allTile = nextTiles;
-
-	for (int i = 0; i < 5; i++)
+	vector<Tile*> randVec;
+	for (int i = 0; i < 2; i++)
 	{
-		for (int j = 0; j < 5; j++)
+		for (int calRand = 0; calRand < 4; calRand++)
 		{
-			//if (board[i][j]->type != OBJ_TYPE::EMPTY)
-			//	allTile.push_back(board[i][j]);
+			for (int valueRand = 1; valueRand < 5; valueRand++)
+			{
+				randVec.push_back(new Tile(valueRand, (CALC)calRand, OBJ_TYPE::NORMAL, false));
+			}
 		}
 	}
 
-	//Find(allTile, 0, 0, mainTile->value, result);
+	//넣기
+	while (!randVec.empty())
+	{
+		int value = rand() % randVec.size();
+		Tile* temp = randVec[value];
+		randVec.erase(randVec.begin() + value);
+		nextTiles.push_back(temp);
+	}
+
+	cout << endl << "~~NextTilesList~~ " << nextTiles.size() << endl;
+	for (int i = 0; i < nextTiles.size(); i++)
+	{
+		wcout << nextTiles[i]->ShowValue() << endl;
+	}
+	cout << "Fin" << endl;
 }
 
-void GameScene::AddTile()
-{
-	CALC cal = (CALC)(rand() % 4);
-	int value;
-	if (cal == CALC::MINUS || cal == CALC::PLUS)
-		value = rand() % 10 + 1;
-	else
-		value = rand() % 4 + 1;
-	
-	Tile* tile = new Tile(value, cal, OBJ_TYPE::NORMAL, false);
-	nextTiles.push_back(tile);
-}
 
 void GameScene::AddTileRandom()
 {
@@ -217,75 +213,25 @@ void GameScene::AddTileRandom()
 	nextTiles.erase(nextTiles.begin(), nextTiles.begin()+1);
 }
 
-bool GameScene::CheckTarget() { return mainTile->value == targetNum; }
-
 void GameScene::StageInit()
 {
 	cout << endl << "~~~~~~~~~~" << endl;
 	cout << "STAGE Init" << endl;
 	cout << "~~~~~~~~~~" << endl << endl;
 
-	for (int i = 0; i < 10; i++)
-	{
-		AddTile();
-	}
+	AddTile();
 
 	gameState = GAME_STATE::PLAY;
 	targetNum = 15;
 }
 
+bool GameScene::CheckTarget() { return mainTile->value == targetNum; }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#pragma region  sfd
-int NumberToInt(const int _oldValue, const Tile _curValue)
+void GameScene::FindTarget()
 {
-	switch (_curValue.cal)
-	{
-	case CALC::PLUS:
-		return _oldValue + _curValue.value;
-	case CALC::MINUS:
-		return _oldValue - _curValue.value;
-	case CALC::MULTIPLY:
-		return _oldValue * _curValue.value;
-	case CALC::DIVIDE:
-		return _oldValue / _curValue.value;
-	}
+	targetNum = rand() % 15 + 1;
+	if (rand() % 2 == 0) targetNum *= -1;
 
-	cout << "error";
-	return 0;
+	cout << "Target : " << targetNum << endl;
 }
 
-void Find(const vector<Tile> _tiles, int _cnt,
-	int _findCnt, int _curValue, std::set<int>& _result)
-{
-	if (_cnt++ == _tiles.size())
-	{
-		_result.insert(_curValue);
-		return;
-	}
-
-	Find(_tiles, _cnt, _findCnt + 1, NumberToInt(_curValue, _tiles[_cnt - 1]), _result);
-	Find(_tiles, _cnt, _findCnt, _curValue, _result);
-}
-#pragma endregion
