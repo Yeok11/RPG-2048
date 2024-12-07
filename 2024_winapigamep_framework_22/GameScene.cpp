@@ -31,6 +31,11 @@ void GameScene::Init()
 	GET_SINGLE(ResourceManager)->TileInit(L"Button_Stone.bmp", OBJ_TYPE::STONE);
 	#pragma endregion
 
+	#pragma region Sound
+	GET_SINGLE(ResourceManager)->LoadSound(L"pop", L"Sound\\pop-268648.mp3", false);
+	
+	#pragma endregion
+
 	#pragma region Board Setting
 	board = new Board();
 	backBoard = new Board();
@@ -63,6 +68,7 @@ void GameScene::Init()
 	tilesImage->ComponentInit(tilesImage->GetSize(), tilesImage->GetPos());
 	AddObject(tilesImage, LAYER::EMPTY_TILE);
 	#pragma endregion
+	
 	
 	gameState = GAME_STATE::PLAY;
 }
@@ -169,7 +175,7 @@ void GameScene::Move(Vec2 _dir)
 #pragma endregion
 
 	gameTime = 1;
-	timeCnt = 100;
+	timeCnt = 10;
 
 	for (int i = 0; i < 5; i++)
 	{
@@ -180,6 +186,7 @@ void GameScene::Move(Vec2 _dir)
 				backBoard->data[i][j]->GetPos(), gameTime / timeCnt);
 		}
 	}
+	GET_SINGLE(ResourceManager)->Play(L"pop");
 }
 
 void GameScene::AddTile()
