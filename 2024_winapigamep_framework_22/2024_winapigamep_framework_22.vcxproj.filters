@@ -177,6 +177,9 @@
     <Image Include="2024_winapigamep_framework_22.ico">
       <Filter>리소스 파일</Filter>
     </Image>
+    <Image Include="..\Output\build\Resource\icon.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -264,5 +267,8 @@
     <ClCompile Include="Board.cpp">
       <Filter>Engine\03. Object</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
 </Project>
