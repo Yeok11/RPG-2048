@@ -49,4 +49,5 @@ using std::wstring;
 #endif
 #include<iostream>
 using std::cout;
+using std::wcout;
 using std::endl;

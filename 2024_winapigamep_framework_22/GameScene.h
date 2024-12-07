@@ -20,13 +20,16 @@ public:
     virtual void Init() override;
     virtual void Update() override;
     ~GameScene() override;
-
-    bool CheckTarget();
     void Move(Vec2 _dir);
 
 private:
+    bool CheckTarget();
+
     void StageInit();
-    void FindTarget();
     void AddTile();
     void AddTileRandom();
+
+
+    //Find Target
+    void FindTarget();
 };

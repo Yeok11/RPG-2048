@@ -18,7 +18,7 @@ public:
 private:
 
 public:
-	std::string ShowValue();
+	wstring ShowValue();
 
 	void Init();
 	void Move();
