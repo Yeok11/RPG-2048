@@ -8,8 +8,7 @@
 
 GameScene::~GameScene()
 {
-	delete(board);
-	delete(backBoard);
+	
 }
 
 void GameScene::Init()
@@ -17,7 +16,7 @@ void GameScene::Init()
 	srand((unsigned int)time(0));
 
 	gameState = GAME_STATE::INIT;
-	gameTime = 20;
+	gameTime = 35;
 
 	#pragma region Tile Render
 	GET_SINGLE(ResourceManager)->TileInit(L"Button_empty.bmp", OBJ_TYPE::EMPTY);
@@ -172,10 +171,12 @@ void GameScene::Update()
 		else if (GET_KEYDOWN(KEY_TYPE::D)) Move({ 1, 0 });
 		else if (GET_KEYDOWN(KEY_TYPE::E)) AddTileRandom();
 	}
-	float p = round(gameTime * 10) / 10;
+
 	wstring timeMes = std::to_wstring((int)gameTime) + L"." + std::to_wstring((int)(gameTime * 10) % 10);
 	timeTxt->SetText(timeMes);
 	if (gameTime < 0) { 
+		delete(board);
+		delete(backBoard);
 		GET_SINGLE(SceneManager)->LoadScene(L"GameOverScene");
 	}
 
@@ -203,7 +204,7 @@ void GameScene::Move(Vec2 _dir)
 #pragma endregion
 
 	moveTime = 1;
-	timeCnt = 10;
+	timeCnt = 22;
 
 	for (int i = 0; i < 5; i++)
 	{
@@ -297,8 +298,9 @@ bool GameScene::CheckTarget() { return mainTile->value == targetNum; }
 
 void GameScene::FindTarget()
 {
+	int randRange = 10 + (score / 5);
 re:
-	int randomTarget = rand() % 10 + 1;
+	int randomTarget = rand() % randRange + 1;
 	if (rand() % 2 == 0) randomTarget *= -1;
 
 	if (randomTarget == targetNum) goto re;
@@ -307,7 +309,7 @@ re:
 
 	cout << "Target : " << targetNum << endl;
 
-	gameTime += 5 - (score / 20);
+	gameTime += 10;
 
 	wstring txt = L"MAKE : ";
 	txt += std::to_wstring(targetNum);
