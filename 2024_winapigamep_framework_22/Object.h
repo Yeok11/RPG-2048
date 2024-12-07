@@ -16,7 +16,7 @@ public:
 	void SetPos(Vec2 _vPos) { m_vPos = _vPos; }
 	void SetSize(Vec2 _vSize) { m_vSize = _vSize; }
 	Vec2& GetPos() { return m_vPos; }
-	const Vec2& GetSize() const { return m_vSize; }
+	Vec2& GetSize() { return m_vSize; }
 public:
 	virtual void EnterCollision(Collider* _other);
 	virtual void StayCollision(Collider* _other);
@@ -48,6 +48,24 @@ public:
 				break;
 		}
 		return component;
+	}
+	template <typename T>
+	const T* GetComponent() const {
+		T* component = nullptr;
+		for (Component* com : m_vecComponents)
+		{
+			component = dynamic_cast<T*>(com);
+			if (component)
+				break;
+		}
+		return component;
+	}
+	template <typename T>
+	const bool TryGetComponent() const {
+		if (GetComponent<T>() == nullptr) {
+			return false;
+		}
+		return true;
 	}
 private:
 	//POINT m_ptPos;

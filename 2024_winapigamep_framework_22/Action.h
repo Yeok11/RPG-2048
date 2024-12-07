@@ -20,6 +20,7 @@ public:
 			actions.end());
 		return *this;
 	}
+
 	void Invoke() const {
 		for (const auto& action : actions) {
 			if (action) {
@@ -27,7 +28,9 @@ public:
 			}
 		}
 	}
+	void Clear() {
+		actions.clear();
+	}
 private:
 	vector<ActionFunc> actions;
 };
-

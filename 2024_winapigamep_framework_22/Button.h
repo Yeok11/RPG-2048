@@ -12,7 +12,6 @@ public:
 public:
 	virtual void LateUpdate() override;
 	virtual void Render(HDC _hdc) override;
-	void OnClick();
     void AddListener(std::function<void()> listen);
 
     bool IsMouseOnButton() 
@@ -21,5 +20,7 @@ public:
     }
 public:
     Action act;
+private:
+	void OnClick();
 };
 

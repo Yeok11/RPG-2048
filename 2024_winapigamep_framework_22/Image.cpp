@@ -14,20 +14,28 @@ Image::~Image()
 {
 }
 
-void Image::LoadAndSetting(const wstring& _key, const wstring& _path, int multipleWidth, int multipleHeight)
+void Image::LoadAndSetting(const wstring& _key, const wstring& _path, float multipleWidth, float multipleHeight)
 {
 	m_pTex = GET_SINGLE(ResourceManager)->TextureLoad(_key, _path);
 	m_multipleWidth = multipleWidth;
 	m_multipleHeight = multipleHeight;
 }
 
-void Image::TileLoadSetting(const OBJ_TYPE _type, int multipleWidth, int multipleHeight)
+void Image::TileLoadSetting(const OBJ_TYPE _type, float multipleWidth, float multipleHeight)
 {
 	m_pTex = GET_SINGLE(ResourceManager)->TextureLoad(_type);
 	m_multipleWidth = multipleWidth;
 	m_multipleHeight = multipleHeight;
 
 }
+
+void Image::SetMultiple(float widthMultiple, float heightMultiple)
+{
+	m_multipleHeight = heightMultiple;
+	m_multipleWidth = widthMultiple;
+}
+
+
 
 void Image::LateUpdate()
 {

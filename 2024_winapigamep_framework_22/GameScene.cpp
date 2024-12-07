@@ -5,15 +5,16 @@
 #include "Lerp.h"
 #include "TimeManager.h"
 #include "GameScene.h"
+#include "UI.h"
 
 GameScene::~GameScene()
 {
-	while (!nextTiles.empty())
+	/*while (!nextTiles.empty())
 	{
 		Tile * tile = nextTiles[0];
 		nextTiles.erase(nextTiles.begin());
 		delete(tile);
-	}
+	}*/
 
 	delete(board);
 	delete(backBoard);
@@ -30,6 +31,7 @@ void GameScene::Init()
 	GET_SINGLE(ResourceManager)->TileInit(L"Button_Stone.bmp", OBJ_TYPE::STONE);
 	#pragma endregion
 
+	#pragma region Board Setting
 	board = new Board();
 	backBoard = new Board();
 
@@ -52,10 +54,35 @@ void GameScene::Init()
 
 	mainTile = new Tile(1, CALC::PLUS, OBJ_TYPE::MAIN);
 	board->AddToBoard(mainTile, { 2,2 }, backBoard->data[2][2]->GetPos());
+	#pragma endregion
+
+	#pragma region UI Setting
+	UI* tilesImage = new UI();
+	tilesImage->SetPos({ 1050, 100 });
+	tilesImage->LoadAndSetting(L"BtnUI_UP", L"Texture\\Button_Long_Up.bmp", 10, 10);
+	tilesImage->ComponentInit(tilesImage->GetSize(), tilesImage->GetPos());
+	AddObject(tilesImage, LAYER::EMPTY_TILE);
+	#pragma endregion
+	
+	gameState = GAME_STATE::PLAY;
 }
 
 void GameScene::Update()
 {
+	if (CheckTarget())
+	{
+		gameState = GAME_STATE::INIT;
+		StageInit();
+		int x = 200;
+		for (auto& tile : nextTiles) {
+			tile->SetPos({ 1100, x });
+			tile->ComponentInit(tile->GetSize(), tile->GetPos());
+			AddObject(tile, LAYER::OBJECT_TILE);
+			x += 200;
+		}
+		return;	
+	}
+
 	//Debuging
 	if (GET_KEYDOWN(KEY_TYPE::N))
 	{
@@ -164,7 +191,9 @@ void GameScene::AddTile()
 		{
 			for (int valueRand = 1; valueRand < 5; valueRand++)
 			{
-				randVec.push_back(new Tile(valueRand, (CALC)calRand, OBJ_TYPE::NORMAL, false));
+        Tile* tile = new Tile(valueRand, (CALC)calRand, OBJ_TYPE::NORMAL);
+				randVec.push_back(tile);
+        tile->SetSize({ 120, 120 });
 			}
 		}
 	}
@@ -177,6 +206,9 @@ void GameScene::AddTile()
 		randVec.erase(randVec.begin() + value);
 		nextTiles.push_back(temp);
 	}
+  
+  
+	
 
 	cout << endl << "~~NextTilesList~~ " << nextTiles.size() << endl;
 	for (int i = 0; i < nextTiles.size(); i++)
@@ -207,10 +239,14 @@ void GameScene::AddTileRandom()
 	}
 
 	Vec2 vec = arrP[rand() % arrP.size()];
-	board->AddToBoard(nextTiles[0], vec, 
+	board->AddToBoardNoAddObject(nextTiles[0], vec,
 		backBoard->data[(int)vec.y][(int)vec.x]
 		->GetPos());
 	nextTiles.erase(nextTiles.begin(), nextTiles.begin()+1);
+
+	for (auto& tile : nextTiles) {
+		tile->SetPos(tile->GetPos() - Vec2(0, 200));
+	}
 }
 
 void GameScene::StageInit()
