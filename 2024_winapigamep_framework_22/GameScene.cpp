@@ -175,7 +175,9 @@ void GameScene::Update()
 	float p = round(gameTime * 10) / 10;
 	wstring timeMes = std::to_wstring((int)gameTime) + L"." + std::to_wstring((int)(gameTime * 10) % 10);
 	timeTxt->SetText(timeMes);
-	if (gameTime < 0) gameState = GAME_STATE::OVER;
+	if (gameTime < 0) { 
+		GET_SINGLE(SceneManager)->LoadScene(L"GameOverScene");
+	}
 
 	Scene::Update();
 }
