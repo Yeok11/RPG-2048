@@ -45,7 +45,7 @@ void UI::AddListener(std::function<void()> act)
 #pragma endregion
 
 #pragma region Image
-void UI::LoadAndSetting(const wstring& _key, const wstring& _path, int multipleWidth, int multipleHeight)
+void UI::LoadAndSetting(const wstring& _key, const wstring& _path, float multipleWidth, float multipleHeight)
 {
 	if (!TryGetComponent<Image>()) return;
 	GetComponent<Image>()->LoadAndSetting(_key, _path, multipleWidth, multipleHeight);

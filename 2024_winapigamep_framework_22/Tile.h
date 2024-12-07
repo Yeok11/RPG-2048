@@ -14,6 +14,8 @@ public:
 	int value;
 	OBJ_TYPE type;
 	CALCULATE cal;
+
+
 	bool merge = true;
 private:
 
