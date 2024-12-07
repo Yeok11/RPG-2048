@@ -5,6 +5,7 @@
 
 void TitleScene::Init()
 {
+	GET_SINGLE(ResourceManager)->LoadSound(L"BGM", L"Sound\\BGM.mp3", true);
 #pragma region Btn
 	UI* startBtn = new UI(true, true, false, true);
 	startBtn->SetPos({ 585, 400 });
@@ -30,11 +31,13 @@ void TitleScene::Init()
 
 #pragma region Text
 	UI* titleText = new UI(false, true, false, false);
-	titleText->SetPos({ 600, 200 });
+	titleText->SetPos({ 500, 200 });
 	titleText->SetFont(L"PFStardust.ttf", L"PF Stardust", 60, 80);
-	titleText->SetText(L"¸ô?·ç");
+	titleText->SetText(L"MergeCalc");
 	AddObject(titleText, LAYER::UI);
 #pragma endregion
+	GET_SINGLE(ResourceManager)->Play(L"BGM");
+	GET_SINGLE(ResourceManager)->Volume(SOUND_CHANNEL::BGM, 0.2f);
 }
 
 void TitleScene::Update()

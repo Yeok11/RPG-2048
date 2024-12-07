@@ -26,6 +26,11 @@ void GameScene::Init()
 	GET_SINGLE(ResourceManager)->TileInit(L"Button_Stone.bmp", OBJ_TYPE::STONE);
 	#pragma endregion
 
+	#pragma region Sound
+	GET_SINGLE(ResourceManager)->LoadSound(L"pop", L"Sound\\pop-268648.mp3", false);
+	
+	#pragma endregion
+
 	#pragma region Board Setting
 	board = new Board();
 	backBoard = new Board();
@@ -170,7 +175,9 @@ void GameScene::Update()
 	float p = round(gameTime * 10) / 10;
 	wstring timeMes = std::to_wstring((int)gameTime) + L"." + std::to_wstring((int)(gameTime * 10) % 10);
 	timeTxt->SetText(timeMes);
-	if (gameTime < 0) gameState = GAME_STATE::OVER;
+	if (gameTime < 0) { 
+		GET_SINGLE(SceneManager)->LoadScene(L"GameOverScene");
+	}
 
 	Scene::Update();
 }
@@ -196,7 +203,7 @@ void GameScene::Move(Vec2 _dir)
 #pragma endregion
 
 	moveTime = 1;
-	timeCnt = 100;
+	timeCnt = 10;
 
 	for (int i = 0; i < 5; i++)
 	{
@@ -207,6 +214,7 @@ void GameScene::Move(Vec2 _dir)
 				backBoard->data[i][j]->GetPos(), moveTime / timeCnt);
 		}
 	}
+	GET_SINGLE(ResourceManager)->Play(L"pop");
 }
 
 void GameScene::AddTile()
@@ -233,6 +241,9 @@ void GameScene::AddTile()
 		nextTiles.push_back(temp);
 		AddObject(temp, LAYER::OBJECT_TILE);
 	}
+  
+  
+	
 
 	cout << endl << "~~NextTilesList~~ " << nextTiles.size() << endl;
 	for (int i = 0; i < nextTiles.size(); i++)
