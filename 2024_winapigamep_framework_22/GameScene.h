@@ -1,6 +1,7 @@
 #pragma once 
 #include "Scene.h"
 #include "Board.h"
+#include "UI.h"
 
 class GameScene : public Scene
 {
@@ -10,11 +11,16 @@ private:
     vector<Tile*> nextTiles; // 나올 타일들
     GAME_STATE gameState;
 
+    UI* targetTxt;
+    UI* timeTxt;
+    UI* scoreTxt;
+
     Tile* mainTile;
     int targetNum = 1;
-    float gameTime;
+    float moveTime;
     int timeCnt = 0;
-
+    float gameTime;
+    int score =0;
 public:
     // Scene을(를) 통해 상속됨
     virtual void Init() override;
@@ -28,7 +34,13 @@ private:
     void StageInit();
     void AddTile();
     void AddTileRandom();
+    void SetScore(int _value = -99) 
+    {
+        if (_value == -99) score++;
+        else score = _value;
 
+        scoreTxt->SetText(L"SOCRE : " + std::to_wstring(score));
+    }
 
     //Find Target
     void FindTarget();

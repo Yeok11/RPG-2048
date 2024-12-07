@@ -5,24 +5,19 @@
 #include "Lerp.h"
 #include "TimeManager.h"
 #include "GameScene.h"
-#include "UI.h"
 
 GameScene::~GameScene()
 {
-	/*while (!nextTiles.empty())
-	{
-		Tile * tile = nextTiles[0];
-		nextTiles.erase(nextTiles.begin());
-		delete(tile);
-	}*/
-
 	delete(board);
 	delete(backBoard);
 }
 
 void GameScene::Init()
 {
+	srand((unsigned int)time(0));
+
 	gameState = GAME_STATE::INIT;
+	gameTime = 20;
 
 	#pragma region Tile Render
 	GET_SINGLE(ResourceManager)->TileInit(L"Button_empty.bmp", OBJ_TYPE::EMPTY);
@@ -40,7 +35,8 @@ void GameScene::Init()
 		for (int j = 0; j < 5; j++)
 		{
 			backBoard->data[i][j] = new Tile(0, CALC::PLUS, OBJ_TYPE::EMPTY);
-			backBoard->data[i][j]->SetPos({ (SCREEN_WIDTH / 2) + (j - 2) * 100, (SCREEN_HEIGHT / 2) + (i - 2) * 100 });
+			backBoard->data[i][j]->SetPos({ (SCREEN_WIDTH / 2) + (j - 2) * 100, 
+				(SCREEN_HEIGHT / 2) + (i - 2) * 100 });
 			AddObject(backBoard->data[i][j], LAYER::EMPTY_TILE);
 		}
 
@@ -52,17 +48,54 @@ void GameScene::Init()
 		}
 #pragma endregion
 
-	mainTile = new Tile(1, CALC::PLUS, OBJ_TYPE::MAIN);
+	mainTile = new Tile(0, CALC::PLUS, OBJ_TYPE::MAIN);
 	board->AddToBoard(mainTile, { 2,2 }, backBoard->data[2][2]->GetPos());
-	#pragma endregion
 
 	#pragma region UI Setting
+	
 	UI* tilesImage = new UI();
-	tilesImage->SetPos({ 1050, 100 });
-	tilesImage->LoadAndSetting(L"BtnUI_UP", L"Texture\\Button_Long_Up.bmp", 10, 10);
+	tilesImage->SetPos({ 1250, 300 });
+	tilesImage->LoadAndSetting(L"BtnUI_UP", L"Texture\\back.bmp", 0.5f, 1.7f);
 	tilesImage->ComponentInit(tilesImage->GetSize(), tilesImage->GetPos());
 	AddObject(tilesImage, LAYER::EMPTY_TILE);
+
+	UI* boardImg = new UI();
+	boardImg->SetPos({ 595, 315 });
+	boardImg->LoadAndSetting(L"BtnUI_UP", L"Texture\\back.bmp", 1.3f, 1.3f);
+	boardImg->ComponentInit(boardImg->GetSize(), boardImg->GetPos());
+	AddObject(boardImg, LAYER::EMPTY_TILE);
+
+	UI* ntMes = new UI(false, true, false);
+	ntMes->SetPos({ 1100, 30});
+	ntMes->SetFont(L"Nt.ttf", L"DungGeunMo", 50, 90);
+	ntMes->SetText(L"NEXT");
+	ntMes->ComponentInit(ntMes->GetSize(), ntMes->GetPos());
+	AddObject(ntMes, LAYER::UI);
+
+	timeTxt = new UI(false, true, false);
+	timeTxt->SetPos({ 50, 500 });
+	timeTxt->SetFont(L"Nt.ttf", L"DungGeunMo", 30, 70);
+	timeTxt->SetText(L"");
+	timeTxt->ComponentInit(timeTxt->GetSize(), timeTxt->GetPos());
+	AddObject(timeTxt, LAYER::UI);
+
+	scoreTxt = new UI(false, true, false);
+	scoreTxt->SetPos({ 620, 50 });
+	scoreTxt->SetFont(L"Nt.ttf", L"DungGeunMo", 30, 70);
+	SetScore(-1);
+	scoreTxt->ComponentInit(scoreTxt->GetSize(), scoreTxt->GetPos());
+	AddObject(scoreTxt, LAYER::UI);
 	#pragma endregion
+
+
+	targetTxt = new UI(false, true, false);
+	targetTxt->SetPos({ 50, 30 });
+	targetTxt->SetFont(L"Nt.ttf", L"DungGeunMo", 30, 70);
+	targetTxt->SetText(L" MAKE : " + targetNum);
+	AddObject(targetTxt, LAYER::UI);
+
+	targetNum = 99;
+	gameState = GAME_STATE::INIT;
 }
 
 void GameScene::Update()
@@ -89,21 +122,24 @@ void GameScene::Update()
 
 	if (GET_KEYDOWN(KEY_TYPE::NUM_3)) FindTarget();
 
-	
+	if (nextTiles.size() <= 5)
+	{
+		AddTile();
+	}
+
 
 	if (gameState == GAME_STATE::MOVE)
 	{
 		if (timeCnt > 0)
 		{
-			if (timeCnt > gameTime)//if leo can't make Move
+			if (timeCnt > moveTime)//if leo can't make Move
 			{
 				timeCnt -= 0.01f;
 
 				for (int x = 0; x < 5; x++)
-					for (int j = 0; j < 5; j++)
-						board->data[x][j]->Move();
+					for (int j = 0; j < 5; j++) board->data[x][j]->Move();
 			}
-			gameTime -= fDT;
+			moveTime -= fDT;
 		}
 		else //all dotTween fin
 		{
@@ -115,19 +151,26 @@ void GameScene::Update()
 	else if (CheckTarget() || gameState == GAME_STATE::INIT)
 	{
 		gameState = GAME_STATE::INIT;
-		StageInit();
 		FindTarget();
+		StageInit();
+		SetScore();
 		return;
 	}
 	
 	else if (gameState == GAME_STATE::PLAY)
 	{
+		gameTime -= fDT;
+
 		if (GET_KEYDOWN(KEY_TYPE::W)) Move({ 0, -1 });
 		else if (GET_KEYDOWN(KEY_TYPE::A)) Move({ -1, 0 });
 		else if (GET_KEYDOWN(KEY_TYPE::S)) Move({ 0, 1 });
 		else if (GET_KEYDOWN(KEY_TYPE::D)) Move({ 1, 0 });
 		else if (GET_KEYDOWN(KEY_TYPE::E)) AddTileRandom();
 	}
+	float p = round(gameTime * 10) / 10;
+	wstring timeMes = std::to_wstring((int)gameTime) + L"." + std::to_wstring((int)(gameTime * 10) % 10);
+	timeTxt->SetText(timeMes);
+	if (gameTime < 0) gameState = GAME_STATE::OVER;
 
 	Scene::Update();
 }
@@ -152,7 +195,7 @@ void GameScene::Move(Vec2 _dir)
 	}
 #pragma endregion
 
-	gameTime = 1;
+	moveTime = 1;
 	timeCnt = 100;
 
 	for (int i = 0; i < 5; i++)
@@ -161,7 +204,7 @@ void GameScene::Move(Vec2 _dir)
 		{
 			board->data[i][j]->moveValue = 
 				Lerp(board->data[i][j]->GetPos(), 
-				backBoard->data[i][j]->GetPos(), gameTime / timeCnt);
+				backBoard->data[i][j]->GetPos(), moveTime / timeCnt);
 		}
 	}
 }
@@ -175,7 +218,7 @@ void GameScene::AddTile()
 		{
 			for (int valueRand = 1; valueRand < 5; valueRand++)
 			{
-				randVec.push_back(new Tile(valueRand, (CALC)calRand, OBJ_TYPE::NORMAL, false));
+				randVec.push_back(new Tile(valueRand, (CALC)calRand, OBJ_TYPE::NORMAL));
 			}
 		}
 	}
@@ -185,14 +228,17 @@ void GameScene::AddTile()
 	{
 		int value = rand() % randVec.size();
 		Tile* temp = randVec[value];
+		temp->SetPos({1095, 175 + (int)nextTiles.size() * 115});
 		randVec.erase(randVec.begin() + value);
 		nextTiles.push_back(temp);
+		AddObject(temp, LAYER::OBJECT_TILE);
 	}
 
 	cout << endl << "~~NextTilesList~~ " << nextTiles.size() << endl;
 	for (int i = 0; i < nextTiles.size(); i++)
 	{
 		wcout << nextTiles[i]->ShowValue() << endl;
+		
 	}
 	cout << "Fin" << endl;
 }
@@ -219,12 +265,11 @@ void GameScene::AddTileRandom()
 
 	Vec2 vec = arrP[rand() % arrP.size()];
 	board->AddToBoardNoAddObject(nextTiles[0], vec,
-		backBoard->data[(int)vec.y][(int)vec.x]
-		->GetPos());
-	nextTiles.erase(nextTiles.begin(), nextTiles.begin()+1);
+		backBoard->data[(int)vec.y][(int)vec.x]->GetPos());
+	nextTiles.erase(nextTiles.begin());
 
 	for (auto& tile : nextTiles) {
-		tile->SetPos(tile->GetPos() - Vec2(0, 200));
+		tile->SetPos(tile->GetPos() - Vec2(0, 115));
 	}
 }
 
@@ -234,19 +279,27 @@ void GameScene::StageInit()
 	cout << "STAGE Init" << endl;
 	cout << "~~~~~~~~~~" << endl << endl;
 
-	AddTile();
-
 	gameState = GAME_STATE::PLAY;
-	targetNum = 15;
 }
 
 bool GameScene::CheckTarget() { return mainTile->value == targetNum; }
 
 void GameScene::FindTarget()
 {
-	targetNum = rand() % 15 + 1;
-	if (rand() % 2 == 0) targetNum *= -1;
+re:
+	int randomTarget = rand() % 10 + 1;
+	if (rand() % 2 == 0) randomTarget *= -1;
+
+	if (randomTarget == targetNum) goto re;
+
+	targetNum = randomTarget;
 
 	cout << "Target : " << targetNum << endl;
+
+	gameTime += 5 - (score / 20);
+
+	wstring txt = L"MAKE : ";
+	txt += std::to_wstring(targetNum);
+	targetTxt->SetText(txt);
 }
 

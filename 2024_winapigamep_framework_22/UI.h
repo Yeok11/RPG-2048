@@ -18,7 +18,7 @@ public:
     void AddListener(std::function<void()> act);
 
     // Image
-    void LoadAndSetting(const wstring& _key, const wstring& _path, int multipleWidth, int multipleHeight);
+    void LoadAndSetting(const wstring& _key, const wstring& _path, float multipleWidth, float multipleHeight);
 
     // Text
     void SetFont(wstring fileName, wstring _fontName, int width, int height);

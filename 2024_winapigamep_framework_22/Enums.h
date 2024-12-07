@@ -24,7 +24,9 @@ enum class GAME_STATE
 {
 	INIT = 0,
 	PLAY,
-	MOVE
+	MOVE,
+	OVER,
+	STOP
 };
 
 typedef enum class CALCULATE
