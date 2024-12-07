@@ -239,8 +239,8 @@
     <ResourceCompile Include="2024_winapigamep_framework_22.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\Output\build\Resource\icon.ico" />
     <Image Include="2024_winapigamep_framework_22.ico" />
+    <Image Include="icon.ico" />
     <Image Include="small.ico" />
   </ItemGroup>
   <ItemGroup>

@@ -124,7 +124,6 @@
     <ClInclude Include="Tile.h">
       <Filter>Engine\03. Object</Filter>
     </ClInclude>
-    <ClInclude Include="Test.h" />
     <ClInclude Include="Action.h">
       <Filter>Engine\99. Header</Filter>
     </ClInclude>
@@ -164,6 +163,7 @@
     <ClInclude Include="Board.h">
       <Filter>Engine\03. Object</Filter>
     </ClInclude>
+    <ClInclude Include="GameOverScene.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2024_winapigamep_framework_22.rc">
@@ -177,7 +177,7 @@
     <Image Include="2024_winapigamep_framework_22.ico">
       <Filter>리소스 파일</Filter>
     </Image>
-    <Image Include="..\Output\build\Resource\icon.ico">
+    <Image Include="icon.ico">
       <Filter>리소스 파일</Filter>
     </Image>
   </ItemGroup>
@@ -236,7 +236,6 @@
     <ClCompile Include="Tile.cpp">
       <Filter>Engine\03. Object</Filter>
     </ClCompile>
-    <ClCompile Include="Test.cpp" />
     <ClCompile Include="UI.cpp">
       <Filter>Engine\03. Object</Filter>
     </ClCompile>
@@ -267,6 +266,7 @@
     <ClCompile Include="Board.cpp">
       <Filter>Engine\03. Object</Filter>
     </ClCompile>
+    <ClCompile Include="GameOverScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
