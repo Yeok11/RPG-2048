@@ -164,6 +164,7 @@
       <Filter>Engine\03. Object</Filter>
     </ClInclude>
     <ClInclude Include="GameOverScene.h" />
+    <ClInclude Include="ScoreManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2024_winapigamep_framework_22.rc">
@@ -267,6 +268,7 @@
       <Filter>Engine\03. Object</Filter>
     </ClCompile>
     <ClCompile Include="GameOverScene.cpp" />
+    <ClCompile Include="ScoreManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />

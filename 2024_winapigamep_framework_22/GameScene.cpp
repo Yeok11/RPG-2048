@@ -5,10 +5,13 @@
 #include "Lerp.h"
 #include "TimeManager.h"
 #include "GameScene.h"
+#include "GameOverScene.h"
+#include "ScoreManager.h"
 
 GameScene::~GameScene()
 {
-	
+	delete(board);
+	delete(backBoard);
 }
 
 void GameScene::Init()
@@ -17,6 +20,7 @@ void GameScene::Init()
 
 	gameState = GAME_STATE::INIT;
 	gameTime = 35;
+	nextTiles = vector<Tile*>();
 
 	#pragma region Tile Render
 	GET_SINGLE(ResourceManager)->TileInit(L"Button_empty.bmp", OBJ_TYPE::EMPTY);
@@ -31,7 +35,9 @@ void GameScene::Init()
 	#pragma endregion
 
 	#pragma region Board Setting
+	if(board == nullptr)
 	board = new Board();
+	if(backBoard == nullptr)
 	backBoard = new Board();
 
 	#pragma region AllTile Init
@@ -86,7 +92,6 @@ void GameScene::Init()
 	scoreTxt = new UI(false, true, false);
 	scoreTxt->SetPos({ 620, 50 });
 	scoreTxt->SetFont(L"Nt.ttf", L"DungGeunMo", 30, 70);
-	SetScore(-1);
 	scoreTxt->ComponentInit(scoreTxt->GetSize(), scoreTxt->GetPos());
 	AddObject(scoreTxt, LAYER::UI);
 	#pragma endregion
@@ -99,6 +104,8 @@ void GameScene::Init()
 	AddObject(targetTxt, LAYER::UI);
 
 	targetNum = 99;
+
+	SetScore(-1);
 	gameState = GAME_STATE::INIT;
 }
 
@@ -132,6 +139,7 @@ void GameScene::Update()
 	}
 
 
+	//Move
 	if (gameState == GAME_STATE::MOVE)
 	{
 		if (timeCnt > 0)
@@ -154,10 +162,9 @@ void GameScene::Update()
 
 	else if (CheckTarget() || gameState == GAME_STATE::INIT)
 	{
-		gameState = GAME_STATE::INIT;
 		FindTarget();
-		StageInit();
 		SetScore();
+		gameState = GAME_STATE::PLAY;
 		return;
 	}
 	
@@ -174,9 +181,11 @@ void GameScene::Update()
 
 	wstring timeMes = std::to_wstring((int)gameTime) + L"." + std::to_wstring((int)(gameTime * 10) % 10);
 	timeTxt->SetText(timeMes);
-	if (gameTime < 0) { 
-		delete(board);
-		delete(backBoard);
+
+	//Game Over
+	if (gameTime < 0) 
+	{
+		GET_SINGLE(ScoreManager)->SetValue(score);
 		GET_SINGLE(SceneManager)->LoadScene(L"GameOverScene");
 	}
 
@@ -285,15 +294,6 @@ void GameScene::AddTileRandom()
 	}
 }
 
-void GameScene::StageInit()
-{
-	cout << endl << "~~~~~~~~~~" << endl;
-	cout << "STAGE Init" << endl;
-	cout << "~~~~~~~~~~" << endl << endl;
-
-	gameState = GAME_STATE::PLAY;
-}
-
 bool GameScene::CheckTarget() { return mainTile->value == targetNum; }
 
 void GameScene::FindTarget()
@@ -306,8 +306,6 @@ re:
 	if (randomTarget == targetNum) goto re;
 
 	targetNum = randomTarget;
-
-	cout << "Target : " << targetNum << endl;
 
 	gameTime += 10;
 

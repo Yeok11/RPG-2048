@@ -76,7 +76,7 @@ void BaseWindow::createWindow()
     m_hWnd = CreateWindowW(
         L"2048 Puzzle", // 윈도우 클래스 식별자
         L"CalcMerge",   // 제목
-        WS_OVERLAPPEDWINDOW, // 윈도우 어떤 스타일로 만들것인가
+        WS_POPUPWINDOW | WS_CAPTION, // 윈도우 어떤 스타일로 만들것인가
         Winposx,  // ★ 띄울 위치의 LEFT
         Winposy,             // ★ 띄울 위치의 TOP
         SCREEN_WIDTH,             // ★ 해상도X

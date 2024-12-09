@@ -5,6 +5,7 @@
 #include "SceneManager.h"
 #include "ResourceManager.h"
 #include "CollisionManager.h"
+#include "ScoreManager.h"
 #include "EventManager.h"
 bool Core::Init(HWND _hwnd)
 {
@@ -28,6 +29,7 @@ bool Core::Init(HWND _hwnd)
 	GET_SINGLE(InputManager)->Init();
 	GET_SINGLE(ResourceManager)->Init();
 	GET_SINGLE(SceneManager)->Init();
+	GET_SINGLE(ScoreManager)->Init();
 
 	//m_obj.SetPos(Vec2(SCREEN_WIDTH / 2
 	//				,SCREEN_HEIGHT/ 2));
@@ -55,15 +57,6 @@ void Core::CleanUp()
 
 void Core::GameLoop()
 {
-	//static int callcount = 0;
-	//++callcount;
-	//static int prev = GetTickCount64();
-	//int cur = GetTickCount64();
-	//if (cur - prev > 1000)
-	//{
-	//	prev = cur;
-	//	callcount = 0;
-	//}
 	MainUpdate();
 	MainRender();
 	GET_SINGLE(EventManager)->Update();
@@ -77,7 +70,6 @@ void Core::MainUpdate()
 	GET_SINGLE(TimeManager)->Update();
 	GET_SINGLE(InputManager)->Update();
 	GET_SINGLE(SceneManager)->Update();
-	GET_SINGLE(CollisionManager)->Update();
 
 }
 

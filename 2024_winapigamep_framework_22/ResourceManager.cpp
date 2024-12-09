@@ -7,6 +7,7 @@ void ResourceManager::Init()
 	::GetCurrentDirectory(255, m_resourcePath);
 	wcscat_s(m_resourcePath, 255, L"\\Resource\\");
 	
+	wcout << m_resourcePath;
 	//::SetWindowText(GET_SINGLE(Core)->GetHwnd(), m_resourcePath);
 
  	FMOD::System_Create(&m_pSoundSystem); // 시스템 생성 함수
@@ -18,6 +19,8 @@ void ResourceManager::Init()
 
 void ResourceManager::TileInit(wstring _imgName, OBJ_TYPE _objType)
 {
+	if (TextureLoad(_objType) != nullptr) return;
+
 	wstring path = m_resourcePath;
 	path += L"Texture\\" + _imgName;
 

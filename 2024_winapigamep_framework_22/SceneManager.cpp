@@ -4,6 +4,7 @@
 #include "TitleScene.h"
 #include "GameScene.h"
 #include "GameOverScene.h"
+
 void SceneManager::Init()
 {
 	m_pCurrentScene = nullptr;
@@ -32,6 +33,7 @@ void SceneManager::Render(HDC _hdc)
 	m_pCurrentScene->Render(_hdc);
 }
 
+
 void SceneManager::RegisterScene(const wstring& _sceneName, std::shared_ptr<Scene> _scene)
 {
 	if (_sceneName.empty() || _scene == nullptr)
@@ -49,6 +51,7 @@ void SceneManager::LoadScene(const wstring& _sceneName)
 	}
 
 	auto iter = m_mapScenes.find(_sceneName);
+
 	if (iter != m_mapScenes.end())
 	{
 		m_pCurrentScene = iter->second;

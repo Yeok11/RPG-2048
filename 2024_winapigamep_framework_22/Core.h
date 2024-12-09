@@ -1,10 +1,6 @@
 #pragma once
-// GameManager
-//SAFE_DELETE()
-// 悼利 教臂沛(促捞唱雇 教臂沛)
-// 沥利 教臂沛
 #include "Define.h"
-//#include "Object.h"
+
 class Core
 {
 	DECLARE_SINGLE(Core);

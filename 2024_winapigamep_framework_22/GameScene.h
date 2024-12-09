@@ -31,7 +31,6 @@ public:
 private:
     bool CheckTarget();
 
-    void StageInit();
     void AddTile();
     void AddTileRandom();
     void SetScore(int _value = -99) 
