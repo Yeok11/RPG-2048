@@ -15,14 +15,10 @@ void Board::Move(Vec2 _lastPos, Vec2 _dir)
 	int posX = _lastPos.x, posY = _lastPos.y;
 	int moveX = posX + _dir.x, moveY = posY + _dir.y;
 
-	//cout << posX << " / " << posY << " Check" << endl;
-
 	if (moveX >= 5 || moveY >= 5) return;
 	if (moveX < 0 || moveY < 0) return;
 
 	if (data[posY][posX]->type == OBJ_TYPE::NONE) return;
-	//cout << "is Not None" << endl;
-
 
 	#pragma region Move
 	if (data[moveY][moveX]->type == OBJ_TYPE::MAIN && data[moveY][moveX]->merge)
@@ -77,6 +73,23 @@ void Board::Move(Vec2 _lastPos, Vec2 _dir)
 		GET_SINGLE(EventManager)->DeleteObject(before);
 	}
 #pragma endregion
+}
+
+void Board::ClearBoard()
+{
+	for (int i = 0; i < 5; i++)
+	{
+		for (int j = 0; j < 5; j++)
+		{
+			if (data[i][j]->type != OBJ_TYPE::MAIN && data[i][j]->type != OBJ_TYPE::NONE)
+			{
+				GET_SINGLE(EventManager)->DeleteObject(data[i][j]);
+				data[i][j] = new Tile();
+				GET_SINGLE(SceneManager)->GetCurrentScene()
+					->AddObject(data[i][j], LAYER::OBJECT_TILE);
+			}
+		}
+	}
 }
 
 void Board::AddToBoard(Tile* _tile, Vec2 _arrPos, Vec2 _tilePos)

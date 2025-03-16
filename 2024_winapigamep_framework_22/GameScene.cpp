@@ -22,6 +22,8 @@ void GameScene::Init()
 	gameTime = 35;
 	nextTiles = vector<Tile*>();
 
+	Skill_Init();
+
 	#pragma region Tile Render
 	GET_SINGLE(ResourceManager)->TileInit(L"Button_empty.bmp", OBJ_TYPE::EMPTY);
 	GET_SINGLE(ResourceManager)->TileInit(L"Button.bmp", OBJ_TYPE::MAIN);;
@@ -62,7 +64,13 @@ void GameScene::Init()
 	board->AddToBoard(mainTile, { 2,2 }, backBoard->data[2][2]->GetPos());
 
 	#pragma region UI Setting
-	
+	resetSkill = new UI(false, true, false);
+	resetSkill->SetPos({ 100, 300 });
+	resetSkill->SetFont(L"Nt.ttf", L"DungGeunMo", 50, 90);
+	resetSkill->SetText(L"R : 0");
+	resetSkill->ComponentInit(resetSkill->GetSize(), resetSkill->GetPos());
+	AddObject(resetSkill, LAYER::UI);
+
 	UI* tilesImage = new UI();
 	tilesImage->SetPos({ 1250, 300 });
 	tilesImage->LoadAndSetting(L"BtnUI_UP", L"Texture\\back.bmp", 0.5f, 1.7f);
@@ -77,8 +85,8 @@ void GameScene::Init()
 
 	UI* ntMes = new UI(false, true, false);
 	ntMes->SetPos({ 1100, 30});
-	ntMes->SetFont(L"Nt.ttf", L"DungGeunMo", 50, 90);
 	ntMes->SetText(L"NEXT");
+	ntMes->SetFont(L"Nt.ttf", L"DungGeunMo", 50, 90);
 	ntMes->ComponentInit(ntMes->GetSize(), ntMes->GetPos());
 	AddObject(ntMes, LAYER::UI);
 
@@ -94,14 +102,13 @@ void GameScene::Init()
 	scoreTxt->SetFont(L"Nt.ttf", L"DungGeunMo", 30, 70);
 	scoreTxt->ComponentInit(scoreTxt->GetSize(), scoreTxt->GetPos());
 	AddObject(scoreTxt, LAYER::UI);
-	#pragma endregion
-
 
 	targetTxt = new UI(false, true, false);
 	targetTxt->SetPos({ 50, 30 });
 	targetTxt->SetFont(L"Nt.ttf", L"DungGeunMo", 30, 70);
 	targetTxt->SetText(L" MAKE : " + targetNum);
 	AddObject(targetTxt, LAYER::UI);
+	#pragma endregion
 
 	targetNum = 99;
 
@@ -172,11 +179,24 @@ void GameScene::Update()
 	{
 		gameTime -= fDT;
 
-		if (GET_KEYDOWN(KEY_TYPE::W)) Move({ 0, -1 });
-		else if (GET_KEYDOWN(KEY_TYPE::A)) Move({ -1, 0 });
-		else if (GET_KEYDOWN(KEY_TYPE::S)) Move({ 0, 1 });
-		else if (GET_KEYDOWN(KEY_TYPE::D)) Move({ 1, 0 });
-		else if (GET_KEYDOWN(KEY_TYPE::E)) AddTileRandom();
+		if (delay <= 0)
+		{
+			if (GET_KEYDOWN(KEY_TYPE::J) && skill_Reset > 0)
+			{
+				skill_Reset--;
+				board->ClearBoard();
+				resetSkill->SetText(L"R : " + std::to_wstring(skill_Reset));
+			}
+
+			if (GET_KEYDOWN(KEY_TYPE::W)) Move({ 0, -1 });
+			else if (GET_KEYDOWN(KEY_TYPE::A)) Move({ -1, 0 });
+			else if (GET_KEYDOWN(KEY_TYPE::S)) Move({ 0, 1 });
+			else if (GET_KEYDOWN(KEY_TYPE::D)) Move({ 1, 0 });
+		}
+		else
+		{
+			delay -= fDT;
+		}
 	}
 
 	wstring timeMes = std::to_wstring((int)gameTime) + L"." + std::to_wstring((int)(gameTime * 10) % 10);
@@ -224,21 +244,30 @@ void GameScene::Move(Vec2 _dir)
 				backBoard->data[i][j]->GetPos(), moveTime / timeCnt);
 		}
 	}
+
+	delay = 0.2f;
 	GET_SINGLE(ResourceManager)->Play(L"pop");
 }
 
 void GameScene::AddTile()
 {
 	vector<Tile*> randVec;
+
+	int plusMaxValue = 5 + (score / 10);
+	int multiMaxValue = 4 + (score / 15);
+
 	for (int i = 0; i < 2; i++)
 	{
-		for (int calRand = 0; calRand < 4; calRand++)
+		for (int valueRand = 1; valueRand < plusMaxValue; valueRand++)
 		{
-			for (int valueRand = 1; valueRand < 5; valueRand++)
-			{
-				randVec.push_back(new Tile(valueRand, (CALC)calRand, OBJ_TYPE::NORMAL));
-			}
+			randVec.push_back(new Tile(valueRand, CALC::PLUS, OBJ_TYPE::NORMAL));
+			randVec.push_back(new Tile(valueRand, CALC::MINUS, OBJ_TYPE::NORMAL));
 		}
+	}
+	for (int valueRand = 2; valueRand < multiMaxValue; valueRand++)
+	{
+		randVec.push_back(new Tile(valueRand, CALC::DIVIDE, OBJ_TYPE::NORMAL));
+		randVec.push_back(new Tile(valueRand, CALC::MULTIPLY, OBJ_TYPE::NORMAL));
 	}
 
 	//넣기
@@ -259,7 +288,6 @@ void GameScene::AddTile()
 	for (int i = 0; i < nextTiles.size(); i++)
 	{
 		wcout << nextTiles[i]->ShowValue() << endl;
-		
 	}
 	cout << "Fin" << endl;
 }
@@ -289,16 +317,22 @@ void GameScene::AddTileRandom()
 		backBoard->data[(int)vec.y][(int)vec.x]->GetPos());
 	nextTiles.erase(nextTiles.begin());
 
-	for (auto& tile : nextTiles) {
+	for (auto& tile : nextTiles) 
+	{
 		tile->SetPos(tile->GetPos() - Vec2(0, 115));
 	}
 }
 
 bool GameScene::CheckTarget() { return mainTile->value == targetNum; }
 
+void GameScene::Skill_Init()
+{
+	skill_Reset = 0;
+}
+
 void GameScene::FindTarget()
 {
-	int randRange = 10 + (score / 5);
+	int randRange = 5 + (score / 5);
 re:
 	int randomTarget = rand() % randRange + 1;
 	if (rand() % 2 == 0) randomTarget *= -1;

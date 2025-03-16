@@ -14,13 +14,23 @@ private:
     UI* targetTxt;
     UI* timeTxt;
     UI* scoreTxt;
+    UI* resetSkill;
 
     Tile* mainTile;
     int targetNum = 1;
-    float moveTime;
     int timeCnt = 0;
+    int score = 0;
+    
+    //skill
+private:
+    int skill_Reset = 0;
+
+    //Time
+private:
+    float moveTime;
     float gameTime;
-    int score =0;
+    float delay = 0;
+
 public:
     // Scene을(를) 통해 상속됨
     virtual void Init() override;
@@ -38,8 +48,16 @@ private:
         if (_value == -99) score++;
         else score = _value;
 
-        scoreTxt->SetText(L"SOCRE : " + std::to_wstring(score));
+        if (score % 10 == 0 && score != 0)
+        {
+            skill_Reset++;
+            resetSkill->SetText(L"R : " + std::to_wstring(skill_Reset));
+        }
+
+        scoreTxt->SetText(L"SCORE : " + std::to_wstring(score));
     }
+
+    void Skill_Init();
 
     //Find Target
     void FindTarget();

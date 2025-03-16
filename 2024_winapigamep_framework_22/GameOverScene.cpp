@@ -14,7 +14,7 @@ void GameOverScene::Init()
 	ui->SetPos({ SCREEN_WIDTH / 2 - 240, SCREEN_HEIGHT / 2 - 150 });
 	ui->SetSize({ 120, 50 });
 	ui->SetFont(L"PFStardust.ttf", L"PF Stardust", 60, 80);
-	ui->SetText(L"HghScore : " + std::to_wstring(highScore));
+	ui->SetText(L"HighScore : " + std::to_wstring(highScore));
 	ui->ComponentInit(ui->GetSize(), ui->GetPos());
 	AddObject(ui, LAYER::UI);
 
